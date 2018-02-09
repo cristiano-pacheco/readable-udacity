@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { Select } from 'semantic-ui-react'
 
 import * as CategoriesAPI from '../../api/categories'
+import * as PostsAPI from '../../api/posts'
+
+import PostGrid from '../post/grid'
 
 class Home extends Component {
   constructor () {
     super()
     this.state = {
-      categories: []
+      categories: [],
+      posts: []
     }
   }
 
@@ -20,11 +24,19 @@ class Home extends Component {
         }))
         this.setState({ categories })
       })
+
+    PostsAPI.getAll()
+      .then(posts => {
+        this.setState({ posts })
+      })
   }
 
   render () {
     return (
-      <Select fluid placeholder='select the category' options={this.state.categories} />
+      <div>
+        <Select fluid placeholder='select the category' options={this.state.categories} />
+        <PostGrid posts={this.state.posts} />
+      </div>
     )
   }
 }
