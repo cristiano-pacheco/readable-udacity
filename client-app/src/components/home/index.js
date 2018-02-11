@@ -2,37 +2,24 @@ import React, { PureComponent } from 'react'
 import { Select } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import * as CategoriesAPI from '../../api/categories'
-
 import PostGrid from '../post/grid'
+import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import { fetchPosts } from '../../redux-flow/reducers/posts/action-creators'
 
 class Home extends PureComponent {
-  constructor () {
-    super()
-    this.state = {
-      categories: [],
-      posts: []
-    }
-  }
-
   componentDidMount () {
-    CategoriesAPI.getAll()
-      .then(data => {
-        const categories = data.map(item => ({
-          value: item.name,
-          text: item.name
-        }))
-        this.setState({ categories })
-      })
-
+    this.props.fetchCategories()
     this.props.fetchPosts()
   }
 
   render () {
     return (
       <div>
-        <Select fluid placeholder='select the category' options={this.state.categories} />
+        <Select
+          fluid
+          placeholder='select the category'
+          options={this.props.categories}
+        />
         <PostGrid posts={this.props.posts} />
       </div>
     )
@@ -40,9 +27,10 @@ class Home extends PureComponent {
 }
 
 const mapStateToProps = state => ({
+  categories: state.categories,
   posts: state.posts
 })
 
-const mapDispatchToProps = { fetchPosts }
+const mapDispatchToProps = { fetchCategories, fetchPosts }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

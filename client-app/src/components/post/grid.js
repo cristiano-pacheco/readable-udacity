@@ -1,6 +1,5 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
-import { connect } from 'react-redux'
 
 const PostGrid = ({ posts }) => (
   <Table color='blue' compact celled selectable>
@@ -25,8 +24,4 @@ const PostGrid = ({ posts }) => (
   </Table>
 )
 
-const mapStateToProps = state => ({
-  posts: state.posts
-})
-
-export default connect(mapStateToProps)(PostGrid)
+export default PostGrid
