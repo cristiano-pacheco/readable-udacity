@@ -3,7 +3,6 @@ import { Select } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import * as CategoriesAPI from '../../api/categories'
-import * as PostsAPI from '../../api/posts'
 
 import PostGrid from '../post/grid'
 import { fetchPosts } from '../../redux-flow/reducers/posts/action-creators'
