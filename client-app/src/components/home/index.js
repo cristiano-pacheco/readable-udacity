@@ -18,7 +18,7 @@ const initialState = {
 }
 
 class Home extends PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = initialState
     this.handleSubmitPostForm = this.handleSubmitPostForm.bind(this)
@@ -43,7 +43,7 @@ class Home extends PureComponent {
     const data = {
       ...this.state,
       id: uuid(),
-      timestamp: Date.now(),
+      timestamp: Date.now()
     }
 
     this.props
@@ -56,11 +56,11 @@ class Home extends PureComponent {
       })
   }
 
-  closeForm() {
+  closeForm () {
     this.setState(initialState)
   }
 
-  openForm() {
+  openForm () {
     this.setState({ showForm: true })
   }
 
@@ -68,7 +68,7 @@ class Home extends PureComponent {
     return (
       <div>
         <Select fluid placeholder='Select the Category' options={this.props.categories} />
-        <br/>
+        <br />
         <PostForm
           categories={this.props.categories}
           handleInputChange={this.handleInputChange}

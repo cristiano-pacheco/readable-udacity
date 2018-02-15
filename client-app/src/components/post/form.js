@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Modal, Form } from 'semantic-ui-react'
 
-
-
 const PostForm = (props) => (
   <Modal
     size='small'
