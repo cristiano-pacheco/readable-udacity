@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Select } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v4'
 
 import PostGrid from '../post/grid'
 import PostForm from '../post/form'
+import * as PostFormValidator from '../post/validator'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import { fetchPosts, savePost } from '../../redux-flow/reducers/posts/action-creators'
 
@@ -14,10 +15,12 @@ const initialState = {
   body: '',
   author: '',
   isLoading: false,
-  showForm: false
+  showForm: false,
+  errorMessages: [],
+  successMessage: ''
 }
 
-class Home extends PureComponent {
+class Home extends Component {
   constructor () {
     super()
     this.state = initialState
@@ -40,6 +43,15 @@ class Home extends PureComponent {
     event.preventDefault()
     this.setState({ isLoading: true })
 
+    const errorMessages = PostFormValidator.validate(this.state)
+
+    if (errorMessages.length) {
+      this.setState({ errorMessages, isLoading: false })
+      return
+    } else {
+      this.setState({ errorMessages })
+    }
+
     const data = {
       ...this.state,
       id: uuid(),
@@ -49,10 +61,19 @@ class Home extends PureComponent {
     this.props
       .savePost(data)
       .then(() => {
-        setTimeout(() => this.setState({
-          ...initialState,
-          showForm: true
-        }), 1000)
+        setTimeout(() => {
+          this.setState({
+            ...initialState,
+            showForm: true,
+            successMessage: 'Post saved.'
+          })
+        }, 1000)
+
+        setTimeout(() => {
+          this.setState({
+            successMessage: ''
+          })
+        }, 3500)
       })
   }
 
