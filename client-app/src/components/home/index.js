@@ -17,7 +17,11 @@ const initialState = {
   isLoading: false,
   showForm: false,
   errorMessages: [],
-  successMessage: ''
+  successMessage: '',
+  sort: {
+    column: null,
+    direction: null
+  }
 }
 
 class Home extends Component {

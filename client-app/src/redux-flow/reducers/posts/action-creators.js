@@ -1,5 +1,5 @@
 import * as PostAPI from '../../../api/posts'
-import { GET_POSTS, ADD_POST } from './actions'
+import { GET_POSTS, ADD_POST, HANDLE_SORT } from './actions'
 
 export const getPosts = data => ({
   type: GET_POSTS,
@@ -22,3 +22,8 @@ export const savePost = data => dispatch => (
     .store(data)
     .then(post => dispatch(addPost(post)))
 )
+
+export const handleSort = column => ({
+  type: HANDLE_SORT,
+  payload: column
+})
