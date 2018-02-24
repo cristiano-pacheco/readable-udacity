@@ -1,5 +1,11 @@
 import * as PostAPI from '../../../api/posts'
-import { GET_POSTS, ADD_POST, HANDLE_SORT } from './actions'
+import {
+  GET_POSTS,
+  ADD_POST,
+  HANDLE_SORT,
+  UP_VOTE,
+  DOWN_VOTE
+} from './actions'
 
 export const getPosts = data => ({
   type: GET_POSTS,
@@ -27,3 +33,25 @@ export const handleSort = column => ({
   type: HANDLE_SORT,
   payload: column
 })
+
+export const upVote = id => ({
+  type: UP_VOTE,
+  payload: id
+})
+
+export const downVote = id => ({
+  type: DOWN_VOTE,
+  payload: id
+})
+
+export const upVoteAPI = id => dispatch => (
+  PostAPI
+    .upVote(id)
+    .then(post => dispatch(upVote(post.id)))
+)
+
+export const downVoteAPI = id => dispatch => (
+  PostAPI
+    .downVote(id)
+    .then(post => dispatch(downVote(post.id)))
+)

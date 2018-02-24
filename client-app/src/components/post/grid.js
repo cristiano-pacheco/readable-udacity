@@ -1,10 +1,11 @@
 import React from 'react'
-import { Table } from 'semantic-ui-react'
+import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { handleSort } from '../../redux-flow/reducers/posts/action-creators'
+import { handleSort, upVoteAPI, downVoteAPI } from '../../redux-flow/reducers/posts/action-creators'
 import { timeStampToHuman } from '../../utils/dateHelper'
+import './post.css'
 
-const PostGrid = ({ posts, sort, columnSort }) => (
+const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
   <Table color='blue' sortable compact celled selectable>
     <Table.Header>
       <Table.Row>
@@ -15,7 +16,6 @@ const PostGrid = ({ posts, sort, columnSort }) => (
           Title
         </Table.HeaderCell>
         <Table.HeaderCell
-          textAlign='center'
           sorted={posts.columnSort === 'timestamp' ? posts.directionSort : null}
           onClick={() => sort('timestamp')}
         >
@@ -34,6 +34,7 @@ const PostGrid = ({ posts, sort, columnSort }) => (
         >
           Vote Score
         </Table.HeaderCell>
+        <Table.HeaderCell />
       </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -42,11 +43,29 @@ const PostGrid = ({ posts, sort, columnSort }) => (
           <Table.Cell>
             <a href=''>{item.title}</a>
           </Table.Cell>
-          <Table.Cell textAlign='center'>
+          <Table.Cell width={2}>
             {timeStampToHuman(item.timestamp)}
           </Table.Cell>
           <Table.Cell>{item.author}</Table.Cell>
           <Table.Cell textAlign='center' width={2}>{item.voteScore}</Table.Cell>
+          <Table.Cell textAlign='center' width={2}>
+            <Icon
+              inverted
+              circular
+              color='blue'
+              className='btn-vote'
+              name='thumbs outline up'
+              onClick={() => upVote(item.id)}
+            />
+            <Icon
+              inverted
+              circular
+              color='red'
+              className='btn-vote'
+              name='thumbs outline down'
+              onClick={() => downVote(item.id)}
+            />
+          </Table.Cell>
         </Table.Row>
       ))}
     </Table.Body>
@@ -54,7 +73,9 @@ const PostGrid = ({ posts, sort, columnSort }) => (
 )
 
 const mapDispatchToProps = dispatch => ({
-  sort: column => dispatch(handleSort(column))
+  sort: column => dispatch(handleSort(column)),
+  upVote: id => dispatch(upVoteAPI(id)),
+  downVote: id => dispatch(downVoteAPI(id)),
 })
 
 export default connect(null, mapDispatchToProps)(PostGrid)

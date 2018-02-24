@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
 import posts from './index'
-import { GET_POSTS, ADD_POST } from './actions'
+import { GET_POSTS, ADD_POST, UP_VOTE, DOWN_VOTE } from './actions'
 
 const before = deepFreeze({
   columnSort: null,
@@ -12,7 +12,8 @@ const before = deepFreeze({
     title: 'post_title_default',
     body: 'body_post_default',
     author: 'author_default',
-    category: 'category_default'
+    category: 'category_default',
+    voteScore: 1
   }]
 })
 
@@ -52,4 +53,20 @@ it('should add a new post', () => {
     ]
   }
   expect(posts(before, action)).to.be.deep.equal(after)
+})
+
+it('should add one vote to the post', () => {
+  const action = deepFreeze({
+    type: UP_VOTE,
+    payload: 'id_default'
+  })
+  expect(posts(before, action).data[0].voteScore).to.be.equal(2)
+})
+
+it('should subtract one vote to the post', () => {
+  const action = deepFreeze({
+    type: DOWN_VOTE,
+    payload: 'id_default'
+  })
+  expect(posts(before, action).data[0].voteScore).to.be.equal(0)
 })

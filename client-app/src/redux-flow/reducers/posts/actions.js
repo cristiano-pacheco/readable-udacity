@@ -1,3 +1,5 @@
 export const GET_POSTS = 'posts:GET_POSTS'
 export const ADD_POST = 'posts:ADD_POST'
 export const HANDLE_SORT = 'posts:HANDLE_SORT'
+export const UP_VOTE = 'posts:UP_VOTE'
+export const DOWN_VOTE = 'posts:DOWN_VOTE'
