@@ -17,7 +17,7 @@ const initialState = {
   isLoading: false,
   showForm: false,
   errorMessages: [],
-  successMessage: '',
+  successMessage: ''
 }
 
 class Home extends Component {

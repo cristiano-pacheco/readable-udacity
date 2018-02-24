@@ -75,7 +75,7 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
 const mapDispatchToProps = dispatch => ({
   sort: column => dispatch(handleSort(column)),
   upVote: id => dispatch(upVoteAPI(id)),
-  downVote: id => dispatch(downVoteAPI(id)),
+  downVote: id => dispatch(downVoteAPI(id))
 })
 
 export default connect(null, mapDispatchToProps)(PostGrid)
