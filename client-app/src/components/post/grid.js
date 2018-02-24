@@ -16,16 +16,25 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
           Title
         </Table.HeaderCell>
         <Table.HeaderCell
+          textAlign='center'
           sorted={posts.columnSort === 'timestamp' ? posts.directionSort : null}
           onClick={() => sort('timestamp')}
         >
           Date
         </Table.HeaderCell>
         <Table.HeaderCell
+          textAlign='center'
           sorted={posts.columnSort === 'author' ? posts.directionSort : null}
           onClick={() => sort('author')}
         >
           Author
+        </Table.HeaderCell>
+        <Table.HeaderCell
+          textAlign='center'
+          sorted={posts.columnSort === 'commentCount' ? posts.directionSort : null}
+          onClick={() => sort('commentCount')}
+        >
+          Comments
         </Table.HeaderCell>
         <Table.HeaderCell
           textAlign='center'
@@ -43,10 +52,11 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
           <Table.Cell>
             <a href=''>{item.title}</a>
           </Table.Cell>
-          <Table.Cell width={2}>
+          <Table.Cell textAlign='center' width={2}>
             {timeStampToHuman(item.timestamp)}
           </Table.Cell>
-          <Table.Cell>{item.author}</Table.Cell>
+          <Table.Cell textAlign='center'>{item.author}</Table.Cell>
+          <Table.Cell textAlign='center' width={1}>{item.commentCount}</Table.Cell>
           <Table.Cell textAlign='center' width={2}>{item.voteScore}</Table.Cell>
           <Table.Cell textAlign='center' width={2}>
             <Icon
