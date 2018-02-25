@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
 import posts from './index'
-import { GET_POSTS, ADD_POST, UP_VOTE, DOWN_VOTE } from './actions'
+import { GET_POSTS, ADD_POST, UP_VOTE, DOWN_VOTE, DELETE_POST } from './actions'
 
 const before = deepFreeze({
   columnSort: null,
@@ -69,4 +69,17 @@ it('should subtract one vote to the post', () => {
     payload: 'id_default'
   })
   expect(posts(before, action).data[0].voteScore).to.be.equal(0)
+})
+
+it('should delete a post by id', () => {
+  const action = deepFreeze({
+    type: DELETE_POST,
+    payload: 'id_default'
+  })
+  const after = {
+    columnSort: null,
+    directionSort: null,
+    data: []
+  }
+  expect(posts(before, action)).to.be.deep.equal(after)
 })

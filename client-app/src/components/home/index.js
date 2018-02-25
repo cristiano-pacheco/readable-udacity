@@ -109,6 +109,10 @@ const mapStateToProps = state => ({
   posts: state.posts
 })
 
-const mapDispatchToProps = { fetchCategories, fetchPosts, savePost }
+const mapDispatchToProps = {
+  fetchCategories,
+  fetchPosts,
+  savePost
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

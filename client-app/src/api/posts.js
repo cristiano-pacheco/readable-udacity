@@ -4,7 +4,7 @@ export const getAll = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
 
-export const store = (data) =>
+export const store = data =>
   fetch(`${api}/posts`, {
     method: 'POST',
     headers: {
@@ -34,5 +34,15 @@ export const downVote = id =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ option: 'downVote' })
+  })
+  .then(res => res.json())
+
+export const deletePost = id =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
   })
   .then(res => res.json())

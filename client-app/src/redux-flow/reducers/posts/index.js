@@ -1,21 +1,21 @@
 import { sortBy } from 'lodash'
 import createReducer from '../create-reducer'
-import { GET_POSTS, ADD_POST, HANDLE_SORT, UP_VOTE, DOWN_VOTE } from './actions'
+import * as actions from './actions'
 
 const initialState = {
-  columnSort: null,
-  directionSort: null,
+  columnSort: 'voteScore',
+  directionSort: 'descending',
   data: []
 }
 
 const posts = createReducer(initialState, {
-  [GET_POSTS]: (state, action) => (
+  [actions.GET_POSTS]: (state, action) => (
     {
       ...state,
       data: action.payload
     }
   ),
-  [ADD_POST]: (state, action) => (
+  [actions.ADD_POST]: (state, action) => (
     {
       ...state,
       data: [
@@ -24,7 +24,7 @@ const posts = createReducer(initialState, {
       ]
     }
   ),
-  [HANDLE_SORT]: (state, action) => {
+  [actions.HANDLE_SORT]: (state, action) => {
     const clickedColumn = action.payload
 
     if (state.columnSort !== clickedColumn) {
@@ -41,7 +41,7 @@ const posts = createReducer(initialState, {
       directionSort: state.directionSort === 'ascending' ? 'descending' : 'ascending'
     }
   },
-  [UP_VOTE]: (state, action) => {
+  [actions.UP_VOTE]: (state, action) => {
     const posts = state.data.map(item => {
       if (item.id === action.payload) {
         return {
@@ -56,7 +56,7 @@ const posts = createReducer(initialState, {
       data: posts
     }
   },
-  [DOWN_VOTE]: (state, action) => {
+  [actions.DOWN_VOTE]: (state, action) => {
     const posts = state.data.map(item => {
       if (item.id === action.payload) {
         return {
@@ -70,7 +70,11 @@ const posts = createReducer(initialState, {
       ...state,
       data: posts
     }
-  }
+  },
+  [actions.DELETE_POST]: (state, action) => ({
+    ...state,
+    data: state.data.filter(item => item.id !== action.payload)
+  })
 })
 
 export default posts

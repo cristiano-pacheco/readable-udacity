@@ -4,7 +4,8 @@ import {
   ADD_POST,
   HANDLE_SORT,
   UP_VOTE,
-  DOWN_VOTE
+  DOWN_VOTE,
+  DELETE_POST
 } from './actions'
 
 export const getPosts = data => ({
@@ -54,4 +55,15 @@ export const downVoteAPI = id => dispatch => (
   PostAPI
     .downVote(id)
     .then(post => dispatch(downVote(post.id)))
+)
+
+export const deletePost = id => ({
+  type: DELETE_POST,
+  payload: id
+})
+
+export const deletePostAPI = id => dispatch => (
+  PostAPI
+    .deletePost(id)
+    .then(() => dispatch(deletePost(id)))
 )

@@ -1,14 +1,23 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { handleSort, upVoteAPI, downVoteAPI } from '../../redux-flow/reducers/posts/action-creators'
+import { handleSort, upVoteAPI, downVoteAPI, deletePostAPI } from '../../redux-flow/reducers/posts/action-creators'
 import { timeStampToHuman } from '../../utils/dateHelper'
 import './post.css'
 
-const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
-  <Table color='blue' sortable compact celled selectable>
+const PostGrid = ({
+  posts,
+  sort,
+  columnSort,
+  upVote,
+  downVote,
+  deletePostAPI
+}) => (
+  <Table sortable compact celled selectable definition>
     <Table.Header>
       <Table.Row>
+        <Table.HeaderCell />
         <Table.HeaderCell
           sorted={posts.columnSort === 'title' ? posts.directionSort : null}
           onClick={() => sort('title')}
@@ -47,8 +56,32 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      { posts.data.map((item, index) => (
+
+      {!posts.data.length && (
+        <Table.Row>
+          <Table.Cell colSpan={7}>
+            No Posts Found.
+          </Table.Cell>
+        </Table.Row>
+      )}
+
+      {!!posts.data.length && posts.data.map((item, index) => (
         <Table.Row key={index}>
+          <Table.Cell textAlign='center' width={2}>
+            <Icon
+              color='blue'
+              size='large'
+              name='edit'
+              className='btn-pointer'
+            />
+            <Icon
+              color='blue'
+              size='large'
+              name='trash'
+              className='btn-pointer'
+              onClick={() => deletePostAPI(item.id)}
+            />
+          </Table.Cell>
           <Table.Cell>
             <a href=''>{item.title}</a>
           </Table.Cell>
@@ -57,13 +90,13 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
           </Table.Cell>
           <Table.Cell textAlign='center'>{item.author}</Table.Cell>
           <Table.Cell textAlign='center' width={1}>{item.commentCount}</Table.Cell>
-          <Table.Cell textAlign='center' width={2}>{item.voteScore}</Table.Cell>
+          <Table.Cell textAlign='center' width={1}>{item.voteScore}</Table.Cell>
           <Table.Cell textAlign='center' width={2}>
             <Icon
               inverted
               circular
               color='blue'
-              className='btn-vote'
+              className='btn-pointer'
               name='thumbs outline up'
               onClick={() => upVote(item.id)}
             />
@@ -71,7 +104,7 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
               inverted
               circular
               color='red'
-              className='btn-vote'
+              className='btn-pointer'
               name='thumbs outline down'
               onClick={() => downVote(item.id)}
             />
@@ -82,10 +115,19 @@ const PostGrid = ({ posts, sort, columnSort, upVote, downVote }) => (
   </Table>
 )
 
+PostGrid.propTypes = {
+  sort: PropTypes.func.isRequired,
+  columnSort: PropTypes.func,
+  upVote: PropTypes.func.isRequired,
+  downVote: PropTypes.func.isRequired,
+  deletePostAPI: PropTypes.func.isRequired
+}
+
 const mapDispatchToProps = dispatch => ({
   sort: column => dispatch(handleSort(column)),
   upVote: id => dispatch(upVoteAPI(id)),
-  downVote: id => dispatch(downVoteAPI(id))
+  downVote: id => dispatch(downVoteAPI(id)),
+  deletePostAPI: id => dispatch(deletePostAPI(id))
 })
 
 export default connect(null, mapDispatchToProps)(PostGrid)
