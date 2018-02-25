@@ -12,7 +12,7 @@ const posts = createReducer(initialState, {
   [actions.GET_POSTS]: (state, action) => (
     {
       ...state,
-      data: action.payload
+      data: action.payload.sort((a, b) => a.voteScore < b.voteScore)
     }
   ),
   [actions.ADD_POST]: (state, action) => (
