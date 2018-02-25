@@ -61,6 +61,7 @@ const posts = createReducer(initialState, {
       if (state.directionSort === 'ascending') {
         return a.voteScore > b.voteScore
       }
+      return 0
     })
 
     return {
@@ -80,7 +81,7 @@ const posts = createReducer(initialState, {
     })
     .sort((a, b) => {
       if (state.columnSort !== 'voteScore') {
-        return
+        return 0
       }
       if (state.directionSort === 'descending') {
         return a.voteScore < b.voteScore
@@ -88,6 +89,7 @@ const posts = createReducer(initialState, {
       if (state.directionSort === 'ascending') {
         return a.voteScore > b.voteScore
       }
+      return 0
     })
 
     return {
