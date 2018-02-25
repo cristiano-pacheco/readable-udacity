@@ -2,9 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { handleSort, upVoteAPI, downVoteAPI, deletePostAPI } from '../../redux-flow/reducers/posts/action-creators'
-import { timeStampToHuman } from '../../utils/dateHelper'
+
 import './post.css'
+import { timeStampToHuman } from '../../utils/dateHelper'
+import {
+  handleSort,
+  upVoteAPI,
+  downVoteAPI,
+  deletePostAPI
+} from '../../redux-flow/reducers/posts/action-creators'
 
 const PostGrid = ({
   posts,
@@ -12,7 +18,9 @@ const PostGrid = ({
   columnSort,
   upVote,
   downVote,
-  deletePostAPI
+  deletePostAPI,
+  openEditForm,
+  closeForm
 }) => (
   <Table sortable compact celled selectable definition>
     <Table.Header>
@@ -73,6 +81,7 @@ const PostGrid = ({
               size='large'
               name='edit'
               className='btn-pointer'
+              onClick={() => openEditForm(item.id)}
             />
             <Icon
               color='blue'
@@ -120,7 +129,9 @@ PostGrid.propTypes = {
   columnSort: PropTypes.func,
   upVote: PropTypes.func.isRequired,
   downVote: PropTypes.func.isRequired,
-  deletePostAPI: PropTypes.func.isRequired
+  deletePostAPI: PropTypes.func.isRequired,
+  openEditForm: PropTypes.func.isRequired,
+  closeForm: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

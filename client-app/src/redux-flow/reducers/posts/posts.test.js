@@ -1,7 +1,14 @@
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
 import posts from './index'
-import { GET_POSTS, ADD_POST, UP_VOTE, DOWN_VOTE, DELETE_POST } from './actions'
+import {
+  GET_POSTS,
+  ADD_POST,
+  UP_VOTE,
+  DOWN_VOTE,
+  DELETE_POST,
+  UPDATE_POST
+} from './actions'
 
 const before = deepFreeze({
   columnSort: null,
@@ -80,6 +87,26 @@ it('should delete a post by id', () => {
     columnSort: null,
     directionSort: null,
     data: []
+  }
+  expect(posts(before, action)).to.be.deep.equal(after)
+})
+
+it('should update the post', () => {
+  const payload = {
+    id: 'id_default',
+    title: 'post_title_updated',
+    body: 'body_post_updated',
+    author: 'author_updated',
+    category: 'category_updated'
+  }
+  const action = deepFreeze({
+    type: UPDATE_POST,
+    payload
+  })
+  const after = {
+    columnSort: null,
+    directionSort: null,
+    data: [payload]
   }
   expect(posts(before, action)).to.be.deep.equal(after)
 })

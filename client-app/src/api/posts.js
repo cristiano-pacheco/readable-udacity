@@ -46,3 +46,24 @@ export const deletePost = id =>
     }
   })
   .then(res => res.json())
+
+export const getPost = id =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+
+export const updatePost = (id, data) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())

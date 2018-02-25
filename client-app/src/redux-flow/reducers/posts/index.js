@@ -100,6 +100,10 @@ const posts = createReducer(initialState, {
   [actions.DELETE_POST]: (state, action) => ({
     ...state,
     data: state.data.filter(item => item.id !== action.payload)
+  }),
+  [actions.UPDATE_POST]: (state, action) => ({
+    ...state,
+    data: state.data.map(item => item.id === action.payload.id ? action.payload : item)
   })
 })
 

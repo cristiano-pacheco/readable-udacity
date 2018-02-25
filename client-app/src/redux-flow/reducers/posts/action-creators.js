@@ -5,7 +5,8 @@ import {
   HANDLE_SORT,
   UP_VOTE,
   DOWN_VOTE,
-  DELETE_POST
+  DELETE_POST,
+  UPDATE_POST
 } from './actions'
 
 export const getPosts = data => ({
@@ -66,4 +67,15 @@ export const deletePostAPI = id => dispatch => (
   PostAPI
     .deletePost(id)
     .then(() => dispatch(deletePost(id)))
+)
+
+export const updatePost = data => ({
+  type: UPDATE_POST,
+  payload: data
+})
+
+export const updatePostAPI = (id, data) => dispatch => (
+  PostAPI
+    .updatePost(id, data)
+    .then(post => dispatch(updatePost(post)))
 )
