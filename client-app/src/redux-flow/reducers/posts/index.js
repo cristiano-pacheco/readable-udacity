@@ -51,6 +51,18 @@ const posts = createReducer(initialState, {
       }
       return item
     })
+    .sort((a, b) => {
+      if (state.columnSort !== 'voteScore') {
+        return 0
+      }
+      if (state.directionSort === 'descending') {
+        return a.voteScore < b.voteScore
+      }
+      if (state.directionSort === 'ascending') {
+        return a.voteScore > b.voteScore
+      }
+    })
+
     return {
       ...state,
       data: posts
@@ -66,6 +78,18 @@ const posts = createReducer(initialState, {
       }
       return item
     })
+    .sort((a, b) => {
+      if (state.columnSort !== 'voteScore') {
+        return
+      }
+      if (state.directionSort === 'descending') {
+        return a.voteScore < b.voteScore
+      }
+      if (state.directionSort === 'ascending') {
+        return a.voteScore > b.voteScore
+      }
+    })
+
     return {
       ...state,
       data: posts
