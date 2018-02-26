@@ -28,6 +28,7 @@ const PostForm = (props) => (
               onChange={props.handleInputChange}
               value={props.category}
               name='category'
+              disabled={props.blockCategory}
             />
             <Form.Input
               name='title'

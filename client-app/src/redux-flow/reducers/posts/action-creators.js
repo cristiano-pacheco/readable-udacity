@@ -20,6 +20,12 @@ export const fetchPosts = () => dispatch => (
     .then(posts => dispatch(getPosts(posts)))
 )
 
+export const fetchPostsByCategory = category => dispatch => (
+  PostAPI
+    .getPostsByCategory(category)
+    .then(posts => dispatch(getPosts(posts)))
+)
+
 export const addPost = data => ({
   type: ADD_POST,
   payload: data

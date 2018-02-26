@@ -4,6 +4,10 @@ export const getAll = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
 
+export const getPostsByCategory = category =>
+  fetch(`${api}/${category}/posts`, { headers })
+    .then(res => res.json())
+
 export const store = data =>
   fetch(`${api}/posts`, {
     method: 'POST',

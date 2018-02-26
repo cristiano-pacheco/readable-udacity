@@ -8,7 +8,12 @@ import PostForm from '../post/form'
 import { getPost } from '../../api/posts'
 import * as PostFormValidator from '../post/validator'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
-import { fetchPosts, savePost, updatePostAPI } from '../../redux-flow/reducers/posts/action-creators'
+import {
+  fetchPosts,
+  fetchPostsByCategory,
+  savePost,
+  updatePostAPI
+} from '../../redux-flow/reducers/posts/action-creators'
 
 const initialState = {
   category: '',
@@ -19,8 +24,13 @@ const initialState = {
   isLoading: false,
   showForm: false,
   isEditingPost: false,
+  blockCategory: false,
   errorMessages: [],
   successMessage: ''
+}
+
+function removeSlash (string) {
+  return string.replace('/', '')
 }
 
 class Home extends Component {
@@ -38,7 +48,28 @@ class Home extends Component {
 
   componentDidMount () {
     this.props.fetchCategories()
-    this.props.fetchPosts()
+
+    if (this.props.location.pathname === '/') {
+      this.props.fetchPosts()
+    } else {
+      this.selectCategoryAfterPageRefresh()
+    }
+
+    this.persistCategoryAfterChangeRoute()
+  }
+
+  selectCategoryAfterPageRefresh () {
+    const category = removeSlash(this.props.location.pathname)
+    this.props.fetchPostsByCategory(category)
+    this.setState({ category, blockCategory: true })
+  }
+
+  persistCategoryAfterChangeRoute () {
+    this.props.history.listen(location => {
+      const category = removeSlash(location.pathname)
+      this.setState({ category, blockCategory: true })
+      this.props.fetchPostsByCategory(category)
+    })
   }
 
   handleInputChange (event, { name, value }) {
@@ -68,16 +99,18 @@ class Home extends Component {
 
     if (!this.formIsValid()) return
 
-    const data = {
+    this.props
+      .updatePostAPI(this.state.id, this.getDataToUpdate())
+      .then(this.handleSuccessMessage)
+  }
+
+  getDataToUpdate () {
+    return {
       category: this.state.category,
       title: this.state.title,
       body: this.state.body,
       author: this.state.author
     }
-
-    this.props
-      .updatePostAPI(this.state.id, data)
-      .then(this.handleSuccessMessage)
   }
 
   formIsValid () {
@@ -93,21 +126,26 @@ class Home extends Component {
   }
 
   handleSuccessMessage () {
-    let successMessage = {
+    let successState = {
       showForm: true,
       isLoading: false,
       successMessage: 'Post saved.'
     }
 
+    if (this.state.blockCategory) {
+      successState.blockCategory = this.state.blockCategory
+      successState.category = this.state.category
+    }
+
     if (!this.state.isEditingPost) {
-      successMessage = {
+      successState = {
         ...initialState,
-        ...successMessage
+        ...successState
       }
     }
 
     setTimeout(() => {
-      this.setState(successMessage)
+      this.setState(successState)
     }, 1000)
 
     setTimeout(() => {
@@ -118,7 +156,12 @@ class Home extends Component {
   }
 
   closeForm () {
-    this.setState(initialState)
+    const { blockCategory, category } = this.state
+    this.setState({
+      ...initialState,
+      blockCategory: blockCategory || false,
+      category: category || ''
+    })
   }
 
   openForm () {
@@ -139,10 +182,20 @@ class Home extends Component {
       })
   }
 
+  handleCategoryChange (cateogry) {
+    this.props.history.push(`/${cateogry}`)
+  }
+
   render () {
     return (
       <div>
-        <Select fluid placeholder='Select the Category' options={this.props.categories} />
+        <Select
+          fluid
+          placeholder='Select the category'
+          options={this.props.categories}
+          onChange={(e, { value }) => this.handleCategoryChange(value)}
+          value={this.state.category}
+        />
         <br />
         <PostForm
           categories={this.props.categories}
@@ -170,6 +223,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchCategories,
   fetchPosts,
+  fetchPostsByCategory,
   savePost,
   updatePostAPI
 }

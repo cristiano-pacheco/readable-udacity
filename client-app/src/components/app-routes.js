@@ -6,6 +6,7 @@ import Home from './home'
 const AppRoutes = () => (
   <Switch>
     <Route exact path='/' component={Home} />
+    <Route path='/:category' component={Home} />
   </Switch>
 )
 
