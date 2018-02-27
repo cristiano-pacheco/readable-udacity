@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Select } from 'semantic-ui-react'
+import { Select, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v4'
 
@@ -44,6 +44,7 @@ class Home extends Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.closeForm = this.closeForm.bind(this)
     this.handleSuccessMessage = this.handleSuccessMessage.bind(this)
+    this.clearCategory = this.clearCategory.bind(this)
   }
 
   componentDidMount () {
@@ -66,6 +67,10 @@ class Home extends Component {
 
   persistCategoryAfterChangeRoute () {
     this.props.history.listen(location => {
+      if (location.pathname === '/') {
+        return this.props.fetchPosts()
+      }
+
       const category = removeSlash(location.pathname)
       this.setState({ category, blockCategory: true })
       this.props.fetchPostsByCategory(category)
@@ -137,11 +142,9 @@ class Home extends Component {
       successState.category = this.state.category
     }
 
-    if (!this.state.isEditingPost) {
-      successState = {
-        ...initialState,
-        ...successState
-      }
+    successState = {
+      ...initialState,
+      ...successState
     }
 
     setTimeout(() => {
@@ -186,6 +189,11 @@ class Home extends Component {
     this.props.history.push(`/${cateogry}`)
   }
 
+  clearCategory () {
+    this.setState({ blockCategory: false, category: '' })
+    this.props.history.push('/')
+  }
+
   render () {
     return (
       <div>
@@ -196,7 +204,10 @@ class Home extends Component {
           onChange={(e, { value }) => this.handleCategoryChange(value)}
           value={this.state.category}
         />
+
         <br />
+        <Button secondary floated='right' size='small' onClick={this.clearCategory}>Clear Category</Button>
+
         <PostForm
           categories={this.props.categories}
           handleInputChange={this.handleInputChange}
