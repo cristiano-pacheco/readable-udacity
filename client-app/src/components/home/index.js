@@ -7,6 +7,7 @@ import PostGrid from '../post/grid'
 import PostForm from '../post/form'
 import { getPost } from '../../api/posts'
 import * as PostFormValidator from '../post/validator'
+import { removeSlash } from '../../utils/stringHelper'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import {
   fetchPosts,
@@ -27,10 +28,6 @@ const initialState = {
   blockCategory: false,
   errorMessages: [],
   successMessage: ''
-}
-
-function removeSlash (string) {
-  return string.replace('/', '')
 }
 
 class Home extends Component {

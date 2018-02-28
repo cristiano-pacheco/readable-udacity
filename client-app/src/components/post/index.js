@@ -13,14 +13,11 @@ import {
 
 import './post.css'
 import { getPost } from '../../api/posts'
+import { captalize } from '../../utils/stringHelper'
 import {
   upVoteAPI,
   downVoteAPI
 } from '../../redux-flow/reducers/posts/action-creators'
-
-function captalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 class Post extends Component {
   constructor() {
