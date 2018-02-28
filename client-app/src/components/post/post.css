@@ -1,3 +1,16 @@
 .btn-pointer {
   cursor: pointer;
 }
+
+.tag-category {
+  float: right;
+  margin-top: 7px !important;
+}
+
+.vote-score {
+  margin-top: -45px !important;
+}
+
+.btn-vote-score {
+  float: right;
+}

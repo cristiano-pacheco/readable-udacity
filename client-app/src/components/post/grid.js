@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
@@ -92,7 +93,9 @@ const PostGrid = ({
             />
           </Table.Cell>
           <Table.Cell>
-            <a href=''>{item.title}</a>
+            <Link to={`/${item.category}/${item.id}`}>
+              {item.title}
+            </Link>
           </Table.Cell>
           <Table.Cell textAlign='center' width={2}>
             {timeStampToHuman(item.timestamp)}

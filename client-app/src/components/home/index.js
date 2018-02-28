@@ -206,7 +206,16 @@ class Home extends Component {
         />
 
         <br />
-        <Button secondary floated='right' size='small' onClick={this.clearCategory}>Clear Category</Button>
+
+        {this.state.category !== '' && (
+          <Button
+            secondary
+            floated='right'
+            size='small'
+            onClick={this.clearCategory}>
+              Clear Category
+          </Button>
+        )}
 
         <PostForm
           categories={this.props.categories}
@@ -216,6 +225,7 @@ class Home extends Component {
           closeForm={this.closeForm}
           {...this.state}
         />
+
         <PostGrid
           posts={this.props.posts}
           openEditForm={this.openEditForm}
