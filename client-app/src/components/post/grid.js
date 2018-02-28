@@ -5,11 +5,10 @@ import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import './post.css'
+import VoteButton from './vote-button'
 import { timeStampToHuman } from '../../utils/helpers/date'
 import {
   handleSort,
-  upVoteAPI,
-  downVoteAPI,
   deletePostAPI
 } from '../../redux-flow/reducers/posts/action-creators'
 
@@ -78,7 +77,6 @@ const PostGrid = ({
             <Link to={`/post/${item.id}/edit`}>
               <Icon color='blue' size='large' name='edit' />
             </Link>
-
             <Icon
               color='blue'
               size='large'
@@ -99,22 +97,7 @@ const PostGrid = ({
           <Table.Cell textAlign='center' width={1}>{item.commentCount}</Table.Cell>
           <Table.Cell textAlign='center' width={1}>{item.voteScore}</Table.Cell>
           <Table.Cell textAlign='center' width={2}>
-            <Icon
-              inverted
-              circular
-              color='blue'
-              className='btn-pointer'
-              name='thumbs outline up'
-              onClick={() => upVote(item.id)}
-            />
-            <Icon
-              inverted
-              circular
-              color='red'
-              className='btn-pointer'
-              name='thumbs outline down'
-              onClick={() => downVote(item.id)}
-            />
+            <VoteButton postId={item.id} />
           </Table.Cell>
         </Table.Row>
       ))}
@@ -125,15 +108,11 @@ const PostGrid = ({
 PostGrid.propTypes = {
   sort: PropTypes.func.isRequired,
   columnSort: PropTypes.func,
-  upVote: PropTypes.func.isRequired,
-  downVote: PropTypes.func.isRequired,
   deletePostAPI: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   sort: column => dispatch(handleSort(column)),
-  upVote: id => dispatch(upVoteAPI(id)),
-  downVote: id => dispatch(downVoteAPI(id)),
   deletePostAPI: id => dispatch(deletePostAPI(id))
 })
 

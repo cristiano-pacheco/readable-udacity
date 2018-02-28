@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Select, Button } from 'semantic-ui-react'
+import { Select, Button, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -17,7 +17,6 @@ class Home extends Component {
     super()
     this.state = {
       category: '',
-      unlisten: null
     }
     this.clearCategory = this.clearCategory.bind(this)
   }
@@ -41,17 +40,17 @@ class Home extends Component {
   }
 
   persistCategoryAfterChangeRoute () {
-    const unlisten = this.props.history.listen(location => {
+    this.props.history.listen(location => {
       if (location.pathname === '/') {
         return this.props.fetchPosts()
       }
 
-      const category = removeSlash(location.pathname)
-      this.setState({ category, blockCategory: true })
-      this.props.fetchPostsByCategory(category)
+      const { category } = this.props.match.params
+      if (category) {
+        this.setState({ category })
+        this.props.fetchPostsByCategory(category)
+      }
     })
-
-    unlisten()
   }
 
   handleCategoryChange (category) {
@@ -60,7 +59,7 @@ class Home extends Component {
   }
 
   clearCategory () {
-    this.setState({ blockCategory: false, category: '' })
+    this.setState({ category: '' })
     this.props.history.push('/')
   }
 
@@ -74,13 +73,15 @@ class Home extends Component {
           onChange={(e, { value }) => this.handleCategoryChange(value)}
           value={this.state.category}
         />
-
         <br />
-
         <Link to='/post/new'>
-          <Button size='small' primary>Add Post</Button>
+          <Button animated='vertical' primary>
+            <Button.Content hidden>Add Post</Button.Content>
+            <Button.Content visible>
+              <Icon name='plus' />
+            </Button.Content>
+          </Button>
         </Link>
-
         <If test={this.state.category !== ''}>
           <Button
             secondary
@@ -90,7 +91,6 @@ class Home extends Component {
               Clear Category
           </Button>
         </If>
-
         <PostGrid posts={this.props.posts} />
       </div>
     )

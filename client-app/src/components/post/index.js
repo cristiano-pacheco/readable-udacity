@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   Form,
@@ -12,12 +13,9 @@ import {
 } from 'semantic-ui-react'
 
 import './post.css'
+import VoteButton from './vote-button'
 import { getPost } from '../../api/posts'
 import { captalize } from '../../utils/helpers/string'
-import {
-  upVoteAPI,
-  downVoteAPI
-} from '../../redux-flow/reducers/posts/action-creators'
 
 class Post extends Component {
   constructor () {
@@ -32,6 +30,7 @@ class Post extends Component {
     }
     this.handleUpVote = this.handleUpVote.bind(this)
     this.handleDownVote = this.handleDownVote.bind(this)
+    this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount () {
@@ -49,6 +48,10 @@ class Post extends Component {
   handleDownVote () {
     this.setState({ voteScore: (this.state.voteScore - 1) })
     this.props.downVoteAPI(this.state.id)
+  }
+
+  goBack () {
+    this.props.history.goBack()
   }
 
   render () {
@@ -86,42 +89,26 @@ class Post extends Component {
 
         </Segment>
         <Message attached='bottom'>
-
-          <Button basic icon labelPosition='left' primary>
-            <Icon name='edit' /> Edit
+          <Button icon labelPosition='left' primary onClick={this.goBack}>
+            <Icon name='arrow left' /> Previous Page
           </Button>
-
-          <Button basic icon labelPosition='left' color='red'>
+          <Link to={`/post/${this.state.id}/edit`}>
+            <Button icon labelPosition='left' primary>
+              <Icon name='edit' /> Edit
+            </Button>
+          </Link>
+          <Button icon labelPosition='left' color='red'>
             <Icon name='trash' /> Delete
           </Button>
-
-          <Icon
-            inverted
-            circular
-            color='red'
-            className='btn-pointer btn-vote-score'
-            name='thumbs outline down'
-            onClick={this.handleDownVote}
-          />
-
-          <Icon
-            inverted
-            circular
-            color='blue'
-            className='btn-pointer btn-vote-score'
-            name='thumbs outline up'
-            onClick={this.handleUpVote}
-          />
-
+          <div className='btn-vote-score'>
+            <VoteButton postId={this.state.id} />
+          </div>
         </Message>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = {
-  upVoteAPI,
-  downVoteAPI
-}
+const mapDispatchToProps = {}
 
 export default connect(null, mapDispatchToProps)(Post)

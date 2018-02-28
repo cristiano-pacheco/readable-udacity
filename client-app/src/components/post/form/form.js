@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Icon } from 'semantic-ui-react'
 
 const PostForm = ({
   handleSubmit,
@@ -48,7 +48,9 @@ const PostForm = ({
       onChange={handleInputChange}
       value={author}
     />
-    <Button type='submit' primary disabled={loading}>Save</Button>
+    <Button type='submit' labelPosition='left' disabled={loading} primary icon>
+      <Icon name='save' /> Save
+    </Button>
   </Form>
 )
 
