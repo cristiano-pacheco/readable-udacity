@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import uuid from 'uuid/v4'
 import { Segment, Header } from 'semantic-ui-react'
 
 import PostForm from './form'
@@ -9,7 +8,8 @@ import If from '../../../utils/components/if'
 import ErrorMessage from '../../message/error'
 import SuccessMessage from '../../message/success'
 import { fetchCategories } from '../../../redux-flow/reducers/categories/action-creators'
-import { addPostAPI } from '../../../redux-flow/reducers/posts/action-creators'
+import { updatePostAPI } from '../../../redux-flow/reducers/posts/action-creators'
+import { getPost } from '../../../api/posts'
 
 const initialState = {
   category: '',
@@ -22,7 +22,7 @@ const initialState = {
   successMessage: ''
 }
 
-class PostFormCreate extends Component {
+class PostFormEdit extends Component {
   constructor () {
     super()
     this.state = initialState
@@ -31,7 +31,13 @@ class PostFormCreate extends Component {
   }
 
   componentDidMount () {
+    const { post_id } = this.props.match.params
+    this.setState({ isLoading: true, id: post_id })
+
     this.props.fetchCategories()
+
+    getPost(post_id)
+      .then(post => this.setState({ ...post, isLoading: false }))
   }
 
   handleSubmit (event) {
@@ -40,18 +46,12 @@ class PostFormCreate extends Component {
 
     if (!this.formIsValid()) return
 
-    const data = {
-      ...this.state,
-      id: uuid(),
-      timestamp: Date.now()
-    }
-
     this.props
-      .addPostAPI(data)
+      .updatePostAPI(this.state.id, this.state)
       .then(() => {
         this.setState({
-          ...initialState,
-          successMessage: 'Post added.'
+          isLoading: false,
+          successMessage: 'Post saved.'
         })
       })
   }
@@ -77,7 +77,7 @@ class PostFormCreate extends Component {
     return (
       <div>
         <Header as='h2' attached='top'>
-          Create Post
+          Edit Post
         </Header>
         <Segment attached loading={isLoading}>
           <PostForm
@@ -85,7 +85,7 @@ class PostFormCreate extends Component {
             title={title}
             author={author}
             body={body}
-            loading={isLoading}
+            isLoading={isLoading}
             categories={this.props.categories}
             handleSubmit={this.handleSubmit}
             handleInputChange={this.handleInputChange}
@@ -108,7 +108,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchCategories,
-  addPostAPI
+  updatePostAPI
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostFormCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(PostFormEdit)

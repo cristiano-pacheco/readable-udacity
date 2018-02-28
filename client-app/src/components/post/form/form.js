@@ -9,11 +9,12 @@ const PostForm = ({
   category,
   title,
   body,
-  author
+  author,
+  loading
 }) => (
   <Form
     onSubmit={handleSubmit}
-    loading={isLoading}
+    loading={loading}
     autoComplete='off'
   >
     <Form.Select
@@ -47,7 +48,7 @@ const PostForm = ({
       onChange={handleInputChange}
       value={author}
     />
-    <Button type='submit' primary>Save</Button>
+    <Button type='submit' primary disabled={loading}>Save</Button>
   </Form>
 )
 

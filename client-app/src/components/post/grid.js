@@ -19,9 +19,7 @@ const PostGrid = ({
   columnSort,
   upVote,
   downVote,
-  deletePostAPI,
-  openEditForm,
-  closeForm
+  deletePostAPI
 }) => (
   <Table sortable compact celled selectable definition>
     <Table.Header>
@@ -77,13 +75,10 @@ const PostGrid = ({
       {!!posts.data.length && posts.data.map((item, index) => (
         <Table.Row key={index}>
           <Table.Cell textAlign='center' width={2}>
-            <Icon
-              color='blue'
-              size='large'
-              name='edit'
-              className='btn-pointer'
-              onClick={() => openEditForm(item.id)}
-            />
+            <Link to={`/post/${item.id}/edit`}>
+              <Icon color='blue' size='large' name='edit' />
+            </Link>
+
             <Icon
               color='blue'
               size='large'
@@ -132,7 +127,7 @@ PostGrid.propTypes = {
   columnSort: PropTypes.func,
   upVote: PropTypes.func.isRequired,
   downVote: PropTypes.func.isRequired,
-  deletePostAPI: PropTypes.func.isRequired,
+  deletePostAPI: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

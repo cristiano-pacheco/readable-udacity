@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Select, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import If from '../../utils/components/if'
@@ -18,7 +19,6 @@ class Home extends Component {
       category: '',
       unlisten: null
     }
-    this.openNewPostForm = this.openNewPostForm.bind(this)
     this.clearCategory = this.clearCategory.bind(this)
   }
 
@@ -59,10 +59,6 @@ class Home extends Component {
     this.props.history.push(`/${category}`)
   }
 
-  openNewPostForm () {
-    this.props.history.push('/post/new')
-  }
-
   clearCategory () {
     this.setState({ blockCategory: false, category: '' })
     this.props.history.push('/')
@@ -81,7 +77,9 @@ class Home extends Component {
 
         <br />
 
-        <Button primary size='small' onClick={this.openNewPostForm}>Add Post</Button>
+        <Link to='/post/new'>
+          <Button size='small' primary>Add Post</Button>
+        </Link>
 
         <If test={this.state.category !== ''}>
           <Button
