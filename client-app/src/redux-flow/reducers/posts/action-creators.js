@@ -31,7 +31,7 @@ export const addPost = data => ({
   payload: data
 })
 
-export const savePost = data => dispatch => (
+export const addPostAPI = data => dispatch => (
   PostAPI
     .store(data)
     .then(post => dispatch(addPost(post)))

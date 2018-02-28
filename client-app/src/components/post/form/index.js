@@ -1,0 +1,122 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import uuid from 'uuid/v4'
+import { Segment, Header } from 'semantic-ui-react'
+
+import PostForm from './form'
+import * as PostFormValidator from '../validator'
+import If from '../../../utils/components/if'
+import ErrorMessage from '../../message/error'
+import SuccessMessage from '../../message/success'
+import { fetchCategories } from '../../../redux-flow/reducers/categories/action-creators'
+import { addPostAPI } from '../../../redux-flow/reducers/posts/action-creators'
+
+const initialState = {
+  category: '',
+  title: '',
+  body: '',
+  author: '',
+  id: '',
+  isLoading: false,
+  errorMessages: [],
+  successMessage: ''
+}
+
+class PostFormContainer extends Component {
+  constructor () {
+    super()
+    this.state = {
+      category: '',
+      title: '',
+      body: '',
+      author: '',
+      id: '',
+      isLoading: false,
+      errorMessages: [],
+      successMessage: ''
+    }
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.fetchCategories()
+  }
+
+  handleSubmit (event) {
+    event.preventDefault()
+    this.setState({ isLoading: true })
+
+    if (!this.formIsValid()) return
+
+    const data = {
+      ...this.state,
+      id: uuid(),
+      timestamp: Date.now()
+    }
+
+    this.props
+      .addPostAPI(data)
+      .then(() => {
+        this.setState({
+          ...initialState,
+          successMessage: 'Post added.'
+        })
+      })
+  }
+
+  formIsValid () {
+    const errorMessages = PostFormValidator.validate(this.state)
+
+    if (errorMessages.length) {
+      this.setState({ errorMessages, isLoading: false })
+      return false
+    }
+
+    this.setState({ errorMessages })
+    return true
+  }
+
+  handleInputChange (event, { name, value }) {
+    this.setState({ [name]: value })
+  }
+
+  render () {
+    const { errorMessages, successMessage, category, title, author, body } = this.state
+    return (
+      <div>
+        <Header as='h2' attached='top'>
+          Create Post
+        </Header>
+        <Segment attached>
+          <PostForm
+            category={category}
+            title={title}
+            author={author}
+            body={body}
+            categories={this.props.categories}
+            handleSubmit={this.handleSubmit}
+            handleInputChange={this.handleInputChange}
+          />
+          <If test={!!errorMessages.length}>
+            <ErrorMessage errorMessages={errorMessages} />
+          </If>
+          <If test={!!successMessage.length}>
+            <SuccessMessage message={successMessage} />
+          </If>
+        </Segment>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => ({
+  categories: state.categories
+})
+
+const mapDispatchToProps = {
+  fetchCategories,
+  addPostAPI
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostFormContainer)

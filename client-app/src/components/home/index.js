@@ -1,46 +1,23 @@
 import React, { Component } from 'react'
 import { Select, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import uuid from 'uuid/v4'
 
+import If from '../../utils/components/if'
 import PostGrid from '../post/grid'
-import PostForm from '../post/form'
-import { getPost } from '../../api/posts'
-import * as PostFormValidator from '../post/validator'
-import { removeSlash } from '../../utils/stringHelper'
+import { removeSlash } from '../../utils/helpers/string'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import {
   fetchPosts,
-  fetchPostsByCategory,
-  savePost,
-  updatePostAPI
+  fetchPostsByCategory
 } from '../../redux-flow/reducers/posts/action-creators'
-
-const initialState = {
-  category: '',
-  title: '',
-  body: '',
-  author: '',
-  id: '',
-  isLoading: false,
-  showForm: false,
-  isEditingPost: false,
-  blockCategory: false,
-  errorMessages: [],
-  successMessage: ''
-}
 
 class Home extends Component {
   constructor () {
     super()
-    this.state = initialState
-    this.handleSubmitCreatePost = this.handleSubmitCreatePost.bind(this)
-    this.handleSubmitUpdatePost = this.handleSubmitUpdatePost.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.openForm = this.openForm.bind(this)
-    this.openEditForm = this.openEditForm.bind(this)
-    this.closeForm = this.closeForm.bind(this)
-    this.handleSuccessMessage = this.handleSuccessMessage.bind(this)
+    this.state = {
+      category: ''
+    }
+    this.openNewPostForm = this.openNewPostForm.bind(this)
     this.clearCategory = this.clearCategory.bind(this)
   }
 
@@ -74,116 +51,13 @@ class Home extends Component {
     })
   }
 
-  handleInputChange (event, { name, value }) {
-    this.setState({ [name]: value })
+  handleCategoryChange (category) {
+    this.setState({ category })
+    this.props.history.push(`/${category}`)
   }
 
-  handleSubmitCreatePost (event) {
-    event.preventDefault()
-    this.setState({ isLoading: true })
-
-    if (!this.formIsValid()) return
-
-    const data = {
-      ...this.state,
-      id: uuid(),
-      timestamp: Date.now()
-    }
-
-    this.props
-      .savePost(data)
-      .then(this.handleSuccessMessage)
-  }
-
-  handleSubmitUpdatePost (event) {
-    event.preventDefault()
-    this.setState({ isLoading: true })
-
-    if (!this.formIsValid()) return
-
-    this.props
-      .updatePostAPI(this.state.id, this.getDataToUpdate())
-      .then(this.handleSuccessMessage)
-  }
-
-  getDataToUpdate () {
-    return {
-      category: this.state.category,
-      title: this.state.title,
-      body: this.state.body,
-      author: this.state.author
-    }
-  }
-
-  formIsValid () {
-    const errorMessages = PostFormValidator.validate(this.state)
-
-    if (errorMessages.length) {
-      this.setState({ errorMessages, isLoading: false })
-      return false
-    }
-
-    this.setState({ errorMessages })
-    return true
-  }
-
-  handleSuccessMessage () {
-    let successState = {
-      showForm: true,
-      isLoading: false,
-      successMessage: 'Post saved.'
-    }
-
-    if (this.state.blockCategory) {
-      successState.blockCategory = this.state.blockCategory
-      successState.category = this.state.category
-    }
-
-    successState = {
-      ...initialState,
-      ...successState
-    }
-
-    setTimeout(() => {
-      this.setState(successState)
-    }, 1000)
-
-    setTimeout(() => {
-      this.setState({
-        successMessage: ''
-      })
-    }, 2000)
-  }
-
-  closeForm () {
-    const { blockCategory, category } = this.state
-    this.setState({
-      ...initialState,
-      blockCategory: blockCategory || false,
-      category: category || ''
-    })
-  }
-
-  openForm () {
-    this.setState({ showForm: true })
-  }
-
-  openEditForm (postId) {
-    this.setState({ isLoading: true })
-    getPost(postId)
-      .then(post => {
-        this.setState({
-          ...this.state,
-          ...post,
-          showForm: true,
-          isLoading: false,
-          isEditingPost: true
-        })
-      })
-  }
-
-  handleCategoryChange (cateogry) {
-    this.props.history.push(`/${cateogry}`)
+  openNewPostForm () {
+    this.props.history.push('/post/new')
   }
 
   clearCategory () {
@@ -204,7 +78,9 @@ class Home extends Component {
 
         <br />
 
-        {this.state.category !== '' && (
+        <Button primary size='small' onClick={this.openNewPostForm}>Add Post</Button>
+
+        <If test={this.state.category !== ''}>
           <Button
             secondary
             floated='right'
@@ -212,16 +88,7 @@ class Home extends Component {
             onClick={this.clearCategory}>
               Clear Category
           </Button>
-        )}
-
-        <PostForm
-          categories={this.props.categories}
-          handleInputChange={this.handleInputChange}
-          handleSubmit={this.state.isEditingPost ? this.handleSubmitUpdatePost : this.handleSubmitCreatePost}
-          openForm={this.openForm}
-          closeForm={this.closeForm}
-          {...this.state}
-        />
+        </If>
 
         <PostGrid
           posts={this.props.posts}
@@ -241,9 +108,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchCategories,
   fetchPosts,
-  fetchPostsByCategory,
-  savePost,
-  updatePostAPI
+  fetchPostsByCategory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

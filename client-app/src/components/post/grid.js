@@ -5,7 +5,7 @@ import { Table, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import './post.css'
-import { timeStampToHuman } from '../../utils/dateHelper'
+import { timeStampToHuman } from '../../utils/helpers/date'
 import {
   handleSort,
   upVoteAPI,

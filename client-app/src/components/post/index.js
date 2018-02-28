@@ -13,14 +13,14 @@ import {
 
 import './post.css'
 import { getPost } from '../../api/posts'
-import { captalize } from '../../utils/stringHelper'
+import { captalize } from '../../utils/helpers/string'
 import {
   upVoteAPI,
   downVoteAPI
 } from '../../redux-flow/reducers/posts/action-creators'
 
 class Post extends Component {
-  constructor() {
+  constructor () {
     super()
     this.state = {
       category: '',
@@ -42,16 +42,16 @@ class Post extends Component {
   }
 
   handleUpVote () {
-    this.setState( { voteScore: (this.state.voteScore + 1)} )
+    this.setState({ voteScore: (this.state.voteScore + 1) })
     this.props.upVoteAPI(this.state.id)
   }
 
   handleDownVote () {
-    this.setState( { voteScore: (this.state.voteScore - 1)} )
+    this.setState({ voteScore: (this.state.voteScore - 1) })
     this.props.downVoteAPI(this.state.id)
   }
 
-  render() {
+  render () {
     const { category, title, body, author, voteScore } = this.state
     return (
       <div>
