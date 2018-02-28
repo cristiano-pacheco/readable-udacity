@@ -15,7 +15,8 @@ class Home extends Component {
   constructor () {
     super()
     this.state = {
-      category: ''
+      category: '',
+      unlisten: null
     }
     this.openNewPostForm = this.openNewPostForm.bind(this)
     this.clearCategory = this.clearCategory.bind(this)
@@ -40,7 +41,7 @@ class Home extends Component {
   }
 
   persistCategoryAfterChangeRoute () {
-    this.props.history.listen(location => {
+    const unlisten = this.props.history.listen(location => {
       if (location.pathname === '/') {
         return this.props.fetchPosts()
       }
@@ -49,6 +50,8 @@ class Home extends Component {
       this.setState({ category, blockCategory: true })
       this.props.fetchPostsByCategory(category)
     })
+
+    unlisten()
   }
 
   handleCategoryChange (category) {
@@ -90,11 +93,7 @@ class Home extends Component {
           </Button>
         </If>
 
-        <PostGrid
-          posts={this.props.posts}
-          openEditForm={this.openEditForm}
-          closeForm={this.closeForm}
-        />
+        <PostGrid posts={this.props.posts} />
       </div>
     )
   }

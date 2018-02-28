@@ -22,19 +22,10 @@ const initialState = {
   successMessage: ''
 }
 
-class PostFormContainer extends Component {
+class PostFormCreate extends Component {
   constructor () {
     super()
-    this.state = {
-      category: '',
-      title: '',
-      body: '',
-      author: '',
-      id: '',
-      isLoading: false,
-      errorMessages: [],
-      successMessage: ''
-    }
+    this.state = initialState
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -119,4 +110,4 @@ const mapDispatchToProps = {
   addPostAPI
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PostFormCreate)

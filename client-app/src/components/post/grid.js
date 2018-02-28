@@ -133,8 +133,6 @@ PostGrid.propTypes = {
   upVote: PropTypes.func.isRequired,
   downVote: PropTypes.func.isRequired,
   deletePostAPI: PropTypes.func.isRequired,
-  openEditForm: PropTypes.func.isRequired,
-  closeForm: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
