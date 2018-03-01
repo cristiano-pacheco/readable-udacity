@@ -14,3 +14,14 @@ export const store = data =>
     body: JSON.stringify(data)
   })
   .then(res => res.json())
+
+export const update = (id, data) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())

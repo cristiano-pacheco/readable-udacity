@@ -14,6 +14,7 @@ class Comments extends Component {
   constructor () {
     super()
     this.state = {
+      id: '',
       body: '',
       author: '',
       postId: '',
@@ -24,6 +25,7 @@ class Comments extends Component {
       errorMessages: []
     }
     this.openForm = this.openForm.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
     this.closeForm = this.closeForm.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -54,14 +56,16 @@ class Comments extends Component {
       this.setState({ errorMessages })
     }
 
-    const data = {
-      id: uuid(),
-      parentId: this.state.postId,
-      author: this.state.author,
-      body: this.state.body,
-      timestamp: Date.now()
+    const data = this.getData()
+
+    if (this.state.id) {
+      return this.updateComment(data)
     }
 
+    this.createComment(data)
+  }
+
+  createComment (data) {
     CommentsAPI
       .store(data)
       .then(comment => {
@@ -78,8 +82,53 @@ class Comments extends Component {
       })
   }
 
+  updateComment (data) {
+    CommentsAPI
+      .update(this.state.id, data)
+      .then(comment => {
+        this.setState({
+          id: '',
+          body: '',
+          author: '',
+          successMessage: 'Comment saved.',
+          isLoading: false,
+          comments: this.state.comments.map(item => {
+            return item.id === comment.id ? comment : item
+          })
+        })
+      })
+  }
+
+  getData () {
+    const data = {
+      id: uuid(),
+      parentId: this.state.postId,
+      author: this.state.author,
+      body: this.state.body,
+      timestamp: Date.now()
+    }
+
+    if (this.state.id) {
+      delete data.id
+      delete data.parentId
+    }
+
+    return data
+  }
+
   openForm () {
     this.setState({ isOpenForm: true })
+  }
+
+  openEditForm (commentId) {
+    const { id, body, author } = this.state.comments.find(item => item.id === commentId)
+    this.setState({
+      ...this.state,
+      id,
+      body,
+      author,
+      isOpenForm: true
+    })
   }
 
   closeForm () {
@@ -114,7 +163,7 @@ class Comments extends Component {
         <br />
         <Card.Group itemsPerRow={1}>
           {comments.map((item, index) => (
-            <Comment key={index} comment={item} />
+            <Comment key={index} comment={item} openEditForm={this.openEditForm} />
           ))}
         </Card.Group>
       </div>

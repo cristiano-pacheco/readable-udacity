@@ -19,7 +19,7 @@ const initialState = {
   category: '',
   successMessage: '',
   isLoading: false,
-  errorMessages: [],
+  errorMessages: []
 }
 
 class PostFormEdit extends Component {

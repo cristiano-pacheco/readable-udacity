@@ -10,7 +10,7 @@ const PostForm = ({
   isLoading,
   categories,
   handleSubmit,
-  handleInputChange,
+  handleInputChange
 }) => (
   <Form
     onSubmit={handleSubmit}

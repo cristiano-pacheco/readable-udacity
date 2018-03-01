@@ -60,7 +60,7 @@ const CommentForm = ({
 )
 
 CommentForm.propTypes = {
-  open: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   author: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
