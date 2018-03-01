@@ -31,9 +31,10 @@ class Comments extends Component {
 
   componentDidMount () {
     const { post_id } = this.props.match.params
+    this.setState({ isLoading: true })
     CommentsAPI
       .getAll(post_id)
-      .then(comments => this.setState({ comments, postId: post_id }))
+      .then(comments => this.setState({ comments, postId: post_id, isLoading: false }))
   }
 
   handleInputChange (event, { name, value }) {
@@ -107,7 +108,7 @@ class Comments extends Component {
           openForm={this.openForm}
         />
         <br />
-        <Card.Group itemsPerRow={3}>
+        <Card.Group itemsPerRow={2}>
           {comments.map((item, index) => (
             <Comment key={index} comment={item} />
           ))}

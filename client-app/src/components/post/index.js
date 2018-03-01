@@ -27,12 +27,13 @@ class Post extends Component {
   constructor () {
     super()
     this.state = {
-      category: '',
-      title: '',
-      body: '',
-      author: '',
       id: '',
-      voteScore: 0
+      body: '',
+      title: '',
+      author: '',
+      category: '',
+      voteScore: 0,
+      isLoading: false
     }
     this.handleUpVote = this.handleUpVote.bind(this)
     this.handleDownVote = this.handleDownVote.bind(this)
@@ -40,9 +41,10 @@ class Post extends Component {
   }
 
   componentDidMount () {
+    this.setState({ isLoading: true })
     getPost(this.props.match.params.post_id)
       .then(post => {
-        this.setState({ ...post })
+        this.setState({ ...post, isLoading: false })
       })
   }
 
@@ -59,7 +61,7 @@ class Post extends Component {
   }
 
   render () {
-    const { category, title, body, author, voteScore } = this.state
+    const { category, title, body, author, voteScore, isLoading } = this.state
     return (
       <div>
         <DeletePost />
@@ -69,7 +71,7 @@ class Post extends Component {
             {captalize(category)}
           </Label>
         </Header>
-        <Segment attached>
+        <Segment attached loading={isLoading}>
           <Header as='h3' textAlign='left'>
             <Icon name='user' />{captalize(author)}
           </Header>

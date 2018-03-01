@@ -12,14 +12,14 @@ import { fetchCategories } from '../../../redux-flow/reducers/categories/action-
 import { addPostAPI } from '../../../redux-flow/reducers/posts/action-creators'
 
 const initialState = {
-  category: '',
-  title: '',
-  body: '',
-  author: '',
   id: '',
+  body: '',
+  title: '',
+  author: '',
+  category: '',
+  successMessage: '',
   isLoading: false,
   errorMessages: [],
-  successMessage: ''
 }
 
 class PostFormCreate extends Component {
@@ -73,7 +73,8 @@ class PostFormCreate extends Component {
   }
 
   render () {
-    const { errorMessages, successMessage, category, title, author, body, isLoading } = this.state
+    const { errorMessages, successMessage, category,
+      title, author, body, isLoading } = this.state
     return (
       <div>
         <Header as='h2' attached='top'>
@@ -81,13 +82,13 @@ class PostFormCreate extends Component {
         </Header>
         <Segment attached loading={isLoading}>
           <PostForm
-            category={category}
+            body={body}
             title={title}
             author={author}
-            body={body}
-            loading={isLoading}
-            categories={this.props.categories}
+            category={category}
+            isLoading={isLoading}
             handleSubmit={this.handleSubmit}
+            categories={this.props.categories}
             handleInputChange={this.handleInputChange}
           />
           <If test={!!errorMessages.length}>

@@ -4,12 +4,13 @@ import { Card, Icon, Button, Label } from 'semantic-ui-react'
 
 import VoteButtom from '../../post/vote-button'
 import { timeStampToNow } from '../../../utils/helpers/date'
+import { newLineToBr, captalize } from '../../../utils/helpers/string'
 
 const Comment = ({ comment }) => (
   <Card>
     <Card.Content>
       <Card.Header>
-        {comment.author}
+        {captalize(comment.author)}
       </Card.Header>
       <Card.Meta>
         <span className='date'>
@@ -17,7 +18,7 @@ const Comment = ({ comment }) => (
         </span>
       </Card.Meta>
       <Card.Description>
-        {comment.body}
+        {newLineToBr(comment.body)}
       </Card.Description>
     </Card.Content>
     <Card.Content extra>

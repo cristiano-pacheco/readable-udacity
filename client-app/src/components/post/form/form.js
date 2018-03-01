@@ -1,20 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form, Button, Icon } from 'semantic-ui-react'
 
 const PostForm = ({
-  handleSubmit,
-  handleInputChange,
+  body,
+  title,
+  author,
+  category,
   isLoading,
   categories,
-  category,
-  title,
-  body,
-  author,
-  loading
+  handleSubmit,
+  handleInputChange,
 }) => (
   <Form
     onSubmit={handleSubmit}
-    loading={loading}
+    loading={isLoading}
     autoComplete='off'
   >
     <Form.Select
@@ -48,10 +48,21 @@ const PostForm = ({
       onChange={handleInputChange}
       value={author}
     />
-    <Button type='submit' labelPosition='left' disabled={loading} primary icon>
+    <Button type='submit' labelPosition='left' disabled={isLoading} primary icon>
       <Icon name='save' /> Save
     </Button>
   </Form>
 )
+
+PostForm.propTypes = {
+  body: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  categories: PropTypes.array.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired
+}
 
 export default PostForm
