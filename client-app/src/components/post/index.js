@@ -19,6 +19,7 @@ import { getPost } from '../../api/posts'
 import { captalize } from '../../utils/helpers/string'
 import {
   openModalDeletePost,
+  fetchPosts
 } from '../../redux-flow/reducers/posts/action-creators'
 
 class Post extends Component {
@@ -46,12 +47,10 @@ class Post extends Component {
 
   handleUpVote () {
     this.setState({ voteScore: (this.state.voteScore + 1) })
-    this.props.upVoteAPI(this.state.id)
   }
 
   handleDownVote () {
     this.setState({ voteScore: (this.state.voteScore - 1) })
-    this.props.downVoteAPI(this.state.id)
   }
 
   goBack () {
@@ -70,16 +69,13 @@ class Post extends Component {
           </Label>
         </Header>
         <Segment attached>
-
           <Header as='h3' textAlign='left'>
             <Icon name='user' />{captalize(author)}
           </Header>
-
           <Statistic floated='right' size='small' className='vote-score'>
             <Statistic.Value>{voteScore}</Statistic.Value>
             <Statistic.Label>Votes</Statistic.Label>
           </Statistic>
-
           <Form>
             <Form.TextArea
               name='body'
@@ -91,7 +87,6 @@ class Post extends Component {
               autoHeight
             />
           </Form>
-
         </Segment>
         <Message attached='bottom'>
           <Button icon labelPosition='left' primary onClick={this.goBack}>
@@ -111,7 +106,11 @@ class Post extends Component {
             <Icon name='trash' /> Delete
           </Button>
           <div className='btn-vote-score'>
-            <VoteButton postId={this.state.id} />
+            <VoteButton
+              postId={this.state.id}
+              handleUpVote={this.handleUpVote}
+              handleDownVote={this.handleDownVote}
+            />
           </div>
         </Message>
       </div>
@@ -119,8 +118,13 @@ class Post extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  deletePost: id => dispatch(openModalDeletePost(id))
+const mapStateToProps = state => ({
+  posts: state.posts
 })
 
-export default connect(null, mapDispatchToProps)(Post)
+const mapDispatchToProps = dispatch => ({
+  deletePost: id => dispatch(openModalDeletePost(id)),
+  fetchPosts: () => dispatch(fetchPosts())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post)
