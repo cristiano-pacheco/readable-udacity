@@ -16,7 +16,7 @@ class Home extends Component {
   constructor () {
     super()
     this.state = {
-      category: '',
+      category: ''
     }
     this.clearCategory = this.clearCategory.bind(this)
   }

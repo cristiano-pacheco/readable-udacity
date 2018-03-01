@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Card, Icon, Button, Label } from 'semantic-ui-react'
 
-import If from '../../../utils/components/if'
 import VoteButtom from '../../post/vote-button'
 import { timeStampToNow } from '../../../utils/helpers/date'
 
@@ -17,16 +17,16 @@ const Comment = ({ comment }) => (
         </span>
       </Card.Meta>
       <Card.Description>
-        Matthew is a musician living in Nashville.
+        {comment.body}
       </Card.Description>
     </Card.Content>
     <Card.Content extra>
       <Button as='div' labelPosition='right'>
-        <Button color={comment.voteScore < 0 ? 'red' : 'blue' } size='mini'>
+        <Button color={comment.voteScore < 0 ? 'red' : 'blue'} size='mini'>
           <Icon name='heart' />
           Votes
         </Button>
-        <Label as='a' basic color={comment.voteScore < 0 ? 'red' : 'blue' } pointing='left'>
+        <Label as='a' basic color={comment.voteScore < 0 ? 'red' : 'blue'} pointing='left'>
           {comment.voteScore}
         </Label>
       </Button>
@@ -46,5 +46,9 @@ const Comment = ({ comment }) => (
     </Button.Group>
   </Card>
 )
+
+Comment.propTypes = {
+  comment: PropTypes.object.isRequired
+}
 
 export default Comment

@@ -10,26 +10,26 @@ import {
 
 const PostDelete = withRouter(
     ({ history, postId, closeModal, deletePost }) => (
-    <div>
-      <Modal open={Boolean(postId)} basic size='small'>
-        <Header icon='trash' content='Delete the Post' />
-        <Modal.Content>
-          <h3>Are you sure you want to delete the post?</h3>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button basic color='red' inverted onClick={closeModal}>
-            <Icon name='remove' /> No
+      <div>
+        <Modal open={Boolean(postId)} basic size='small'>
+          <Header icon='trash' content='Delete the Post' />
+          <Modal.Content>
+            <h3>Are you sure you want to delete the post?</h3>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button basic color='red' inverted onClick={closeModal}>
+              <Icon name='remove' /> No
           </Button>
-          <Button color='green' inverted onClick={() => {
-            deletePost(postId)
-            history.push('/')
-            setTimeout(closeModal, 200)
-          }}>
-            <Icon name='checkmark' /> Yes
+            <Button color='green' inverted onClick={() => {
+              deletePost(postId)
+              history.push('/')
+              setTimeout(closeModal, 200)
+            }}>
+              <Icon name='checkmark' /> Yes
           </Button>
-        </Modal.Actions>
-      </Modal>
-    </div>
+          </Modal.Actions>
+        </Modal>
+      </div>
   )
 )
 

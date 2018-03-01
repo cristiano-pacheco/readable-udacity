@@ -11,7 +11,7 @@ import VoteButton from './vote-button'
 import { timeStampToHuman } from '../../utils/helpers/date'
 import {
   handleSort,
-  openModalDeletePost,
+  openModalDeletePost
 } from '../../redux-flow/reducers/posts/action-creators'
 
 const PostGrid = ({
@@ -110,7 +110,7 @@ const PostGrid = ({
 
 PostGrid.propTypes = {
   sort: PropTypes.func.isRequired,
-  columnSort: PropTypes.func,
+  columnSort: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => ({

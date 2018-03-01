@@ -140,7 +140,7 @@ it('should set the id of the post that should be deleted', () => {
 
 it('should set the id of the post to be excluded to null', () => {
   const action = deepFreeze({
-    type: CLOSE_MODAL_DELETE_POST,
+    type: CLOSE_MODAL_DELETE_POST
   })
   const before = {
     columnSort: null,
