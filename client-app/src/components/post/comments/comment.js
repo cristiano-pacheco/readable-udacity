@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, Icon, Button, Label } from 'semantic-ui-react'
 
-import If from '../../utils/components/if'
-import VoteButtom from '../post/vote-button'
-import { timeStampToNow } from '../../utils/helpers/date'
+import If from '../../../utils/components/if'
+import VoteButtom from '../../post/vote-button'
+import { timeStampToNow } from '../../../utils/helpers/date'
 
-const SingleComment = ({ comment }) => (
+const Comment = ({ comment }) => (
   <Card>
     <Card.Content>
       <Card.Header>
@@ -47,4 +47,4 @@ const SingleComment = ({ comment }) => (
   </Card>
 )
 
-export default SingleComment
+export default Comment
