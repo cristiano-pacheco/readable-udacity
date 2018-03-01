@@ -15,6 +15,7 @@ import {
 import './post.css'
 import DeletePost from './delete'
 import VoteButton from './vote-button'
+import Comment from '../comment'
 import { getPost } from '../../api/posts'
 import { captalize } from '../../utils/helpers/string'
 import {
@@ -113,6 +114,7 @@ class Post extends Component {
             />
           </div>
         </Message>
+        <Comment />
       </div>
     )
   }
