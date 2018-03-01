@@ -25,3 +25,13 @@ export const update = (id, data) =>
     body: JSON.stringify(data)
   })
   .then(res => res.json())
+
+export const remove = id =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())

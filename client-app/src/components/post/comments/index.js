@@ -29,6 +29,7 @@ class Comments extends Component {
     this.closeForm = this.closeForm.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.deleteComment = this.deleteComment.bind(this)
   }
 
   componentDidMount () {
@@ -116,6 +117,14 @@ class Comments extends Component {
     return data
   }
 
+  deleteComment (id) {
+    CommentsAPI
+      .remove(id)
+      .then(() => this.setState({
+        comments: this.state.comments.filter(item => item.id !== id)
+      }))
+  }
+
   openForm () {
     this.setState({ isOpenForm: true })
   }
@@ -163,7 +172,12 @@ class Comments extends Component {
         <br />
         <Card.Group itemsPerRow={1}>
           {comments.map((item, index) => (
-            <Comment key={index} comment={item} openEditForm={this.openEditForm} />
+            <Comment
+              key={index}
+              comment={item}
+              openEditForm={this.openEditForm}
+              deleteComment={this.deleteComment}
+            />
           ))}
         </Card.Group>
       </div>
