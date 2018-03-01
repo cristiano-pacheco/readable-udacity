@@ -75,11 +75,8 @@ class Home extends Component {
         />
         <br />
         <Link to='/post/new'>
-          <Button animated='vertical' primary>
-            <Button.Content hidden>Add Post</Button.Content>
-            <Button.Content visible>
-              <Icon name='plus' />
-            </Button.Content>
+          <Button type='submit' primary icon>
+            <Icon name='plus' /> Add Post
           </Button>
         </Link>
         <If test={this.state.category !== ''}>

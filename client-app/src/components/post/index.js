@@ -13,9 +13,10 @@ import {
 } from 'semantic-ui-react'
 
 import './post.css'
+import If from '../../utils/components/if'
 import DeletePost from './delete'
-import VoteButton from './vote-button'
 import Comments from './comments'
+import VoteButton from './vote-button'
 import { getPost } from '../../api/posts'
 import { captalize } from '../../utils/helpers/string'
 import {
@@ -75,9 +76,16 @@ class Post extends Component {
           <Header as='h3' textAlign='left'>
             <Icon name='user' />{captalize(author)}
           </Header>
-          <Statistic floated='right' size='small' className='vote-score'>
+          <Statistic color={voteScore < 0 ? 'red' : 'blue'} floated='right' size='small' className='vote-score'>
             <Statistic.Value>{voteScore}</Statistic.Value>
-            <Statistic.Label>Votes</Statistic.Label>
+            <Statistic.Label>
+              <If test={voteScore === 1}>
+                Vote
+              </If>
+              <If test={voteScore === 0 || voteScore > 1}>
+                Votes
+              </If>
+            </Statistic.Label>
           </Statistic>
           <Form>
             <Form.TextArea
@@ -92,17 +100,16 @@ class Post extends Component {
           </Form>
         </Segment>
         <Message attached='bottom'>
-          <Button icon labelPosition='left' primary onClick={this.goBack}>
-            <Icon name='arrow left' /> Previous Page
+          <Button icon primary onClick={this.goBack}>
+            <Icon name='arrow left' />
           </Button>
           <Link to={`/post/${this.state.id}/edit`}>
-            <Button icon labelPosition='left' primary>
+            <Button icon primary>
               <Icon name='edit' /> Edit
             </Button>
           </Link>
           <Button
             icon
-            labelPosition='left'
             color='red'
             onClick={() => this.props.deletePost(this.state.id)}
           >

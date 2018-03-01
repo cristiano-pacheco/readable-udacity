@@ -6,7 +6,7 @@ import logo from '../../assets/logo.png'
 
 const NavBar = () => (
   <div>
-    <Menu fixed='top' color='violet' inverted>
+    <Menu fixed='top' color='blue' inverted>
       <Container>
         <Menu.Item as={Link} to='/'>
           <Image size='mini'src={logo} className='logo' />

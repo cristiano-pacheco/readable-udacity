@@ -18,7 +18,7 @@ const CommentsHeader = ({ comments, openForm, isLoading }) => (
         </If>
       </Header.Content>
     </Header>
-    <Button icon primary labelPosition='left' floated='right' onClick={openForm}>
+    <Button icon primary floated='right' onClick={openForm}>
       <Icon name='add' /> Add
     </Button>
   </Segment>

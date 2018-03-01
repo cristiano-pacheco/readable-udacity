@@ -41,10 +41,10 @@ const CommentForm = ({
             onChange={handleInputChange}
             value={author}
           />
-          <Button type='submit' labelPosition='left' disabled={isLoading} primary icon>
+          <Button type='submit' disabled={isLoading} primary icon>
             <Icon name='save' /> Save
           </Button>
-          <Button labelPosition='left' disabled={isLoading} onClick={close} secondary icon>
+          <Button disabled={isLoading} onClick={close} secondary icon>
             <Icon name='cancel' /> Close
           </Button>
         </Form>

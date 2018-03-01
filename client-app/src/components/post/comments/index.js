@@ -83,7 +83,11 @@ class Comments extends Component {
   }
 
   closeForm () {
-    this.setState({ isOpenForm: false })
+    this.setState({
+      isOpenForm: false,
+      successMessage: '',
+      errorMessages: []
+    })
   }
 
   render () {
@@ -108,7 +112,7 @@ class Comments extends Component {
           openForm={this.openForm}
         />
         <br />
-        <Card.Group itemsPerRow={2}>
+        <Card.Group itemsPerRow={1}>
           {comments.map((item, index) => (
             <Comment key={index} comment={item} />
           ))}

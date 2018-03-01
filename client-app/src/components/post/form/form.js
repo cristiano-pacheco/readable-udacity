@@ -48,7 +48,7 @@ const PostForm = ({
       onChange={handleInputChange}
       value={author}
     />
-    <Button type='submit' labelPosition='left' disabled={isLoading} primary icon>
+    <Button type='submit' disabled={isLoading} primary icon>
       <Icon name='save' /> Save
     </Button>
   </Form>
