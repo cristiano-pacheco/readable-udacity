@@ -6,7 +6,9 @@ import {
   UP_VOTE,
   DOWN_VOTE,
   DELETE_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  OPEN_MODAL_DELETE_POST,
+  CLOSE_MODAL_DELETE_POST
 } from './actions'
 
 export const getPosts = data => ({
@@ -85,3 +87,12 @@ export const updatePostAPI = (id, data) => dispatch => (
     .updatePost(id, data)
     .then(post => dispatch(updatePost(post)))
 )
+
+export const openModalDeletePost = postId => ({
+  type: OPEN_MODAL_DELETE_POST,
+  payload: postId
+})
+
+export const closeModalDeletePost = () => ({
+  type: CLOSE_MODAL_DELETE_POST
+})

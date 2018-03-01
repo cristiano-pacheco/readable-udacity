@@ -7,12 +7,15 @@ import {
   UP_VOTE,
   DOWN_VOTE,
   DELETE_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  OPEN_MODAL_DELETE_POST,
+  CLOSE_MODAL_DELETE_POST
 } from './actions'
 
 const before = deepFreeze({
   columnSort: null,
   directionSort: null,
+  postIDToDelete: null,
   data: [{
     id: 'id_default',
     timestamp: Date.now(),
@@ -41,6 +44,7 @@ it('should get all posts', () => {
   const after = {
     columnSort: null,
     directionSort: null,
+    postIDToDelete: null,
     data: [payload]
   }
   expect(posts(before, action)).to.be.deep.equal(after)
@@ -54,6 +58,7 @@ it('should add a new post', () => {
   const after = {
     columnSort: null,
     directionSort: null,
+    postIDToDelete: null,
     data: [
       ...before.data,
       payload
@@ -86,6 +91,7 @@ it('should delete a post by id', () => {
   const after = {
     columnSort: null,
     directionSort: null,
+    postIDToDelete: null,
     data: []
   }
   expect(posts(before, action)).to.be.deep.equal(after)
@@ -106,7 +112,47 @@ it('should update the post', () => {
   const after = {
     columnSort: null,
     directionSort: null,
+    postIDToDelete: null,
     data: [payload]
+  }
+  expect(posts(before, action)).to.be.deep.equal(after)
+})
+
+it('should set the id of the post that should be deleted', () => {
+  const action = deepFreeze({
+    type: OPEN_MODAL_DELETE_POST,
+    payload: 'id'
+  })
+  const before = {
+    columnSort: null,
+    directionSort: null,
+    postIDToDelete: null,
+    data: []
+  }
+  const after = {
+    columnSort: null,
+    directionSort: null,
+    postIDToDelete: 'id',
+    data: []
+  }
+  expect(posts(before, action)).to.be.deep.equal(after)
+})
+
+it('should set the id of the post to be excluded to null', () => {
+  const action = deepFreeze({
+    type: CLOSE_MODAL_DELETE_POST,
+  })
+  const before = {
+    columnSort: null,
+    directionSort: null,
+    postIDToDelete: 'id',
+    data: []
+  }
+  const after = {
+    columnSort: null,
+    directionSort: null,
+    postIDToDelete: null,
+    data: []
   }
   expect(posts(before, action)).to.be.deep.equal(after)
 })

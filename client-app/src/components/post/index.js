@@ -13,9 +13,13 @@ import {
 } from 'semantic-ui-react'
 
 import './post.css'
+import DeletePost from './delete'
 import VoteButton from './vote-button'
 import { getPost } from '../../api/posts'
 import { captalize } from '../../utils/helpers/string'
+import {
+  openModalDeletePost,
+} from '../../redux-flow/reducers/posts/action-creators'
 
 class Post extends Component {
   constructor () {
@@ -58,6 +62,7 @@ class Post extends Component {
     const { category, title, body, author, voteScore } = this.state
     return (
       <div>
+        <DeletePost />
         <Header as='h1' attached='top'>
           {title}
           <Label color='violet' tag className='tag-category'>
@@ -97,7 +102,12 @@ class Post extends Component {
               <Icon name='edit' /> Edit
             </Button>
           </Link>
-          <Button icon labelPosition='left' color='red'>
+          <Button
+            icon
+            labelPosition='left'
+            color='red'
+            onClick={() => this.props.deletePost(this.state.id)}
+          >
             <Icon name='trash' /> Delete
           </Button>
           <div className='btn-vote-score'>
@@ -109,6 +119,8 @@ class Post extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = dispatch => ({
+  deletePost: id => dispatch(openModalDeletePost(id))
+})
 
 export default connect(null, mapDispatchToProps)(Post)

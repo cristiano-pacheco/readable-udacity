@@ -5,6 +5,7 @@ import * as actions from './actions'
 const initialState = {
   columnSort: 'voteScore',
   directionSort: 'descending',
+  postIDToDelete: null,
   data: []
 }
 
@@ -104,6 +105,14 @@ const posts = createReducer(initialState, {
   [actions.UPDATE_POST]: (state, action) => ({
     ...state,
     data: state.data.map(item => item.id === action.payload.id ? action.payload : item)
+  }),
+  [actions.OPEN_MODAL_DELETE_POST]: (state, action) => ({
+    ...state,
+    postIDToDelete: action.payload
+  }),
+  [actions.CLOSE_MODAL_DELETE_POST]: (state) => ({
+    ...state,
+    postIDToDelete: null
   })
 })
 
