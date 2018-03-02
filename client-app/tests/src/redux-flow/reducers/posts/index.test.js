@@ -1,16 +1,7 @@
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
-import posts from './index'
-import {
-  GET_POSTS,
-  ADD_POST,
-  UP_VOTE,
-  DOWN_VOTE,
-  DELETE_POST,
-  UPDATE_POST,
-  OPEN_MODAL_DELETE_POST,
-  CLOSE_MODAL_DELETE_POST
-} from './actions'
+import posts from '../../../../../src/redux-flow/reducers/posts'
+import * as actions from '../../../../../src/redux-flow/reducers/posts/actions'
 
 const before = deepFreeze({
   columnSort: null,
@@ -38,7 +29,7 @@ const payload = {
 
 it('should get all posts', () => {
   const action = deepFreeze({
-    type: GET_POSTS,
+    type: actions.GET_POSTS,
     payload: [payload]
   })
   const after = {
@@ -52,7 +43,7 @@ it('should get all posts', () => {
 
 it('should add a new post', () => {
   const action = deepFreeze({
-    type: ADD_POST,
+    type: actions.ADD_POST,
     payload
   })
   const after = {
@@ -69,7 +60,7 @@ it('should add a new post', () => {
 
 it('should add one vote to the post', () => {
   const action = deepFreeze({
-    type: UP_VOTE,
+    type: actions.UP_VOTE,
     payload: 'id_default'
   })
   expect(posts(before, action).data[0].voteScore).to.be.equal(2)
@@ -77,7 +68,7 @@ it('should add one vote to the post', () => {
 
 it('should subtract one vote to the post', () => {
   const action = deepFreeze({
-    type: DOWN_VOTE,
+    type: actions.DOWN_VOTE,
     payload: 'id_default'
   })
   expect(posts(before, action).data[0].voteScore).to.be.equal(0)
@@ -85,7 +76,7 @@ it('should subtract one vote to the post', () => {
 
 it('should delete a post by id', () => {
   const action = deepFreeze({
-    type: DELETE_POST,
+    type: actions.DELETE_POST,
     payload: 'id_default'
   })
   const after = {
@@ -106,7 +97,7 @@ it('should update the post', () => {
     category: 'category_updated'
   }
   const action = deepFreeze({
-    type: UPDATE_POST,
+    type: actions.UPDATE_POST,
     payload
   })
   const after = {
@@ -120,7 +111,7 @@ it('should update the post', () => {
 
 it('should set the id of the post that should be deleted', () => {
   const action = deepFreeze({
-    type: OPEN_MODAL_DELETE_POST,
+    type: actions.OPEN_MODAL_DELETE_POST,
     payload: 'id'
   })
   const before = {
@@ -140,7 +131,7 @@ it('should set the id of the post that should be deleted', () => {
 
 it('should set the id of the post to be excluded to null', () => {
   const action = deepFreeze({
-    type: CLOSE_MODAL_DELETE_POST
+    type: actions.CLOSE_MODAL_DELETE_POST
   })
   const before = {
     columnSort: null,

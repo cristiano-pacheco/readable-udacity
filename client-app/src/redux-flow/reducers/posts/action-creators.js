@@ -1,18 +1,8 @@
 import * as PostAPI from '../../../api/posts'
-import {
-  GET_POSTS,
-  ADD_POST,
-  HANDLE_SORT,
-  UP_VOTE,
-  DOWN_VOTE,
-  DELETE_POST,
-  UPDATE_POST,
-  OPEN_MODAL_DELETE_POST,
-  CLOSE_MODAL_DELETE_POST
-} from './actions'
+import * as actions from './actions'
 
 export const getPosts = data => ({
-  type: GET_POSTS,
+  type: actions.GET_POSTS,
   payload: data
 })
 
@@ -29,7 +19,7 @@ export const fetchPostsByCategory = category => dispatch => (
 )
 
 export const addPost = data => ({
-  type: ADD_POST,
+  type: actions.ADD_POST,
   payload: data
 })
 
@@ -40,17 +30,17 @@ export const addPostAPI = data => dispatch => (
 )
 
 export const handleSort = column => ({
-  type: HANDLE_SORT,
+  type: actions.HANDLE_SORT,
   payload: column
 })
 
 export const upVote = id => ({
-  type: UP_VOTE,
+  type: actions.UP_VOTE,
   payload: id
 })
 
 export const downVote = id => ({
-  type: DOWN_VOTE,
+  type: actions.DOWN_VOTE,
   payload: id
 })
 
@@ -67,7 +57,7 @@ export const downVoteAPI = id => dispatch => (
 )
 
 export const deletePost = id => ({
-  type: DELETE_POST,
+  type: actions.DELETE_POST,
   payload: id
 })
 
@@ -78,7 +68,7 @@ export const deletePostAPI = id => dispatch => (
 )
 
 export const updatePost = data => ({
-  type: UPDATE_POST,
+  type: actions.UPDATE_POST,
   payload: data
 })
 
@@ -89,10 +79,10 @@ export const updatePostAPI = (id, data) => dispatch => (
 )
 
 export const openModalDeletePost = postId => ({
-  type: OPEN_MODAL_DELETE_POST,
+  type: actions.OPEN_MODAL_DELETE_POST,
   payload: postId
 })
 
 export const closeModalDeletePost = () => ({
-  type: CLOSE_MODAL_DELETE_POST
+  type: actions.CLOSE_MODAL_DELETE_POST
 })
