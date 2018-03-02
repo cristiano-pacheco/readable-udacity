@@ -12,7 +12,6 @@ import { getPost } from '../../../api/posts'
 import { addPostAPI, updatePostAPI } from '../../../redux-flow/reducers/posts/action-creators'
 import { fetchCategories } from '../../../redux-flow/reducers/categories/action-creators'
 
-
 const initialState = {
   id: '',
   body: '',
@@ -99,10 +98,10 @@ class PostForm extends Component {
   }
 
   loadPost () {
-    const { post_id } = this.props.match.params
-    if (post_id) {
+    const postId = this.props.match.params.post_id
+    if (postId) {
       this.setState({ isLoading: true })
-      getPost(post_id)
+      getPost(postId)
         .then(post => {
           this.setState({
             ...this.state,
@@ -122,7 +121,7 @@ class PostForm extends Component {
   }
 
   render () {
-    const { id, errorMessages, successMessage, category,
+    const { errorMessages, successMessage, category,
       title, author, body, isLoading } = this.state
     return (
       <div>
