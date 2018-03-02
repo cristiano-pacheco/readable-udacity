@@ -1,7 +1,6 @@
-import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
-import categories from './index'
-import { GET_CATEGORIES } from './actions'
+import categories from '../../../../../src/redux-flow/reducers/categories'
+import { GET_CATEGORIES } from '../../../../../src/redux-flow/reducers/categories/actions'
 
 it('should get categories', () => {
   const before = deepFreeze([])
@@ -15,5 +14,5 @@ it('should get categories', () => {
     { value: 'category test 2', text: 'category test 2' }
   ]
 
-  expect(categories(before, action)).to.be.deep.equal(after)
+  expect(categories(before, action)).toEqual(after)
 })
