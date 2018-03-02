@@ -14,7 +14,7 @@ import {
   openModalDeletePost
 } from '../../redux-flow/reducers/posts/action-creators'
 
-const PostGrid = ({
+export const PostGrid = ({
   posts,
   sort,
   columnSort,
@@ -27,12 +27,14 @@ const PostGrid = ({
         <Table.Row>
           <Table.HeaderCell />
           <Table.HeaderCell
+            data-js='column-title'
             sorted={posts.columnSort === 'title' ? posts.directionSort : null}
             onClick={() => sort('title')}
           >
             Title
           </Table.HeaderCell>
           <Table.HeaderCell
+            data-js='column-date'
             textAlign='center'
             sorted={posts.columnSort === 'timestamp' ? posts.directionSort : null}
             onClick={() => sort('timestamp')}
@@ -40,6 +42,7 @@ const PostGrid = ({
             Date
           </Table.HeaderCell>
           <Table.HeaderCell
+            data-js='column-author'
             textAlign='center'
             sorted={posts.columnSort === 'author' ? posts.directionSort : null}
             onClick={() => sort('author')}
@@ -47,6 +50,7 @@ const PostGrid = ({
             Author
           </Table.HeaderCell>
           <Table.HeaderCell
+            data-js='column-comment-count'
             textAlign='center'
             sorted={posts.columnSort === 'commentCount' ? posts.directionSort : null}
             onClick={() => sort('commentCount')}
@@ -54,6 +58,7 @@ const PostGrid = ({
             Comments
           </Table.HeaderCell>
           <Table.HeaderCell
+            data-js='column-vote-score'
             textAlign='center'
             sorted={posts.columnSort === 'voteScore' ? posts.directionSort : null}
             onClick={() => sort('voteScore')}
@@ -67,19 +72,20 @@ const PostGrid = ({
 
         <If test={!posts.data.length}>
           <Table.Row>
-            <Table.Cell colSpan={7}>
+            <Table.Cell colSpan={7} data-js='empty-posts'>
               No Posts Found.
             </Table.Cell>
           </Table.Row>
         </If>
 
         {!!posts.data.length && posts.data.map((item, index) => (
-          <Table.Row key={index}>
+          <Table.Row key={index} data-js='row-post'>
             <Table.Cell textAlign='center' width={2}>
               <Link to={`/post/${item.id}/edit`}>
                 <Icon color='blue' size='large' name='edit' />
               </Link>
               <Icon
+                data-js='btn-delete-post'
                 color='blue'
                 size='large'
                 name='trash'
@@ -110,7 +116,9 @@ const PostGrid = ({
 
 PostGrid.propTypes = {
   sort: PropTypes.func.isRequired,
-  columnSort: PropTypes.func
+  columnSort: PropTypes.func,
+  deletePost: PropTypes.func.isRequired,
+  posts: PropTypes.object.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
