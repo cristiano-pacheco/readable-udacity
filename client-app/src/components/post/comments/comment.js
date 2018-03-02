@@ -29,7 +29,7 @@ const Comment = ({
     </Card.Content>
     <Card.Content extra>
       <Button as='div' labelPosition='right'>
-        <Button color={comment.voteScore < 0 ? 'red' : 'blue'} size='mini'>
+        <Button data-js='btn-vote-score' color={comment.voteScore < 0 ? 'red' : 'blue'} size='mini'>
           <Icon name='heart' />
           Votes
         </Button>
@@ -47,11 +47,11 @@ const Comment = ({
       </div>
     </Card.Content>
     <Button.Group attached='bottom'>
-      <Button onClick={() => openEditForm(comment.id)}>
+      <Button data-js='btn-edit' onClick={() => openEditForm(comment.id)}>
         <Icon name='edit' />
         Edit
       </Button>
-      <Button onClick={() => deleteComment(comment.id)}>
+      <Button data-js='btn-delete' onClick={() => deleteComment(comment.id)}>
         <Icon name='trash' />
         Delete
       </Button>

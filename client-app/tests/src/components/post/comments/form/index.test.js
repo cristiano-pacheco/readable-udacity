@@ -1,4 +1,4 @@
-import CommentForm from '../../../../../src/components/post/comments/form'
+import CommentForm from '../../../../../../src/components/post/comments/form'
 
 const func = () => {}
 
