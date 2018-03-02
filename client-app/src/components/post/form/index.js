@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import uuid from 'uuid/v4'
 import { Segment, Header } from 'semantic-ui-react'
 
-import PostForm from './form'
-import * as PostFormValidator from '../validator'
+import Form from './form'
 import If from '../../../utils/components/if'
 import ErrorMessage from '../../message/error'
+import * as PostValidator from '../validator'
 import SuccessMessage from '../../message/success'
+import { getPost } from '../../../api/posts'
+import { addPostAPI, updatePostAPI } from '../../../redux-flow/reducers/posts/action-creators'
 import { fetchCategories } from '../../../redux-flow/reducers/categories/action-creators'
-import { addPostAPI } from '../../../redux-flow/reducers/posts/action-creators'
+
 
 const initialState = {
   id: '',
@@ -22,7 +24,7 @@ const initialState = {
   errorMessages: []
 }
 
-class PostFormCreate extends Component {
+class PostForm extends Component {
   constructor () {
     super()
     this.state = initialState
@@ -32,6 +34,7 @@ class PostFormCreate extends Component {
 
   componentDidMount () {
     this.props.fetchCategories()
+    this.loadPost()
   }
 
   handleSubmit (event) {
@@ -40,24 +43,17 @@ class PostFormCreate extends Component {
 
     if (!this.formIsValid()) return
 
-    const data = {
-      ...this.state,
-      id: uuid(),
-      timestamp: Date.now()
+    const data = this.getData()
+
+    if (this.isEditing()) {
+      return this.updatePost(data)
     }
 
-    this.props
-      .addPostAPI(data)
-      .then(() => {
-        this.setState({
-          ...initialState,
-          successMessage: 'Post added.'
-        })
-      })
+    this.createPost(data)
   }
 
   formIsValid () {
-    const errorMessages = PostFormValidator.validate(this.state)
+    const errorMessages = PostValidator.validate(this.state)
 
     if (errorMessages.length) {
       this.setState({ errorMessages, isLoading: false })
@@ -68,20 +64,78 @@ class PostFormCreate extends Component {
     return true
   }
 
+  getData () {
+    if (this.isEditing()) {
+      return this.state
+    }
+
+    return {
+      ...this.state,
+      id: uuid(),
+      timestamp: Date.now()
+    }
+  }
+
+  updatePost (data) {
+    this.props
+      .updatePostAPI(this.state.id, this.state)
+      .then(() => {
+        this.setState({
+          isLoading: false,
+          successMessage: 'Post saved.'
+        })
+      })
+  }
+
+  createPost (data) {
+    this.props
+      .addPostAPI(data)
+      .then(() => {
+        this.setState({
+          ...initialState,
+          successMessage: 'Post added.'
+        })
+      })
+  }
+
+  loadPost () {
+    const { post_id } = this.props.match.params
+    if (post_id) {
+      this.setState({ isLoading: true })
+      getPost(post_id)
+        .then(post => {
+          this.setState({
+            ...this.state,
+            ...post,
+            isLoading: false
+          })
+        })
+    }
+  }
+
+  isEditing () {
+    return !!this.state.id
+  }
+
   handleInputChange (event, { name, value }) {
     this.setState({ [name]: value })
   }
 
   render () {
-    const { errorMessages, successMessage, category,
+    const { id, errorMessages, successMessage, category,
       title, author, body, isLoading } = this.state
     return (
       <div>
         <Header as='h2' attached='top'>
-          Create Post
+          <If test={this.isEditing()}>
+            Edit Post
+          </If>
+          <If test={!this.isEditing()}>
+            Create Post
+          </If>
         </Header>
         <Segment attached loading={isLoading}>
-          <PostForm
+          <Form
             body={body}
             title={title}
             author={author}
@@ -109,7 +163,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchCategories,
-  addPostAPI
+  addPostAPI,
+  updatePostAPI
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostFormCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm)
