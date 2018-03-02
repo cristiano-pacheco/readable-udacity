@@ -11,7 +11,7 @@ import {
   fetchPostsByCategory
 } from '../../redux-flow/reducers/posts/action-creators'
 
-class Home extends Component {
+export class Home extends Component {
   constructor () {
     super()
     this.state = {
