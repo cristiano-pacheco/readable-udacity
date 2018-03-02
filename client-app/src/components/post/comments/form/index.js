@@ -44,7 +44,7 @@ const CommentForm = ({
           <Button type='submit' disabled={isLoading} primary icon>
             <Icon name='save' /> Save
           </Button>
-          <Button disabled={isLoading} onClick={close} secondary icon>
+          <Button data-js='btn-close' disabled={isLoading} onClick={close} secondary icon>
             <Icon name='cancel' /> Close
           </Button>
         </Form>
@@ -66,7 +66,8 @@ CommentForm.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errorMessages: PropTypes.array.isRequired,
-  successMessage: PropTypes.string.isRequired
+  successMessage: PropTypes.string.isRequired,
+  handleInputChange: PropTypes.func.isRequired
 }
 
 export default CommentForm
