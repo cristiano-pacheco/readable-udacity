@@ -11,10 +11,10 @@ const CommentsHeader = ({ comments, openForm, isLoading }) => (
       <Header.Content>
         {comments.length}
         <If test={comments.length === 1}>
-          &nbsp;Comment
+          <span data-js='text-comment'>&nbsp;Comment</span>
         </If>
         <If test={comments.length === 0 || comments.length > 1}>
-          &nbsp;Comments
+          <span data-js='text-comments'>&nbsp;Comments</span>
         </If>
       </Header.Content>
     </Header>
