@@ -8,7 +8,7 @@ import {
   downVoteAPI
 } from '../../redux-flow/reducers/posts/action-creators'
 
-const VoteButton = ({
+export const VoteButton = ({
   id,
   upVoteAPI,
   downVoteAPI,
@@ -29,6 +29,7 @@ const VoteButton = ({
         }
         handleUpVote(id)
       }}
+      data-js='btn-upvote'
     />
     <Icon
       inverted
@@ -42,6 +43,7 @@ const VoteButton = ({
         }
         handleDownVote(id)
       }}
+      data-js='btn-downvote'
     />
   </div>
 )
@@ -52,7 +54,7 @@ VoteButton.propTypes = {
   downVoteAPI: PropTypes.func.isRequired,
   handleUpVote: PropTypes.func,
   handleDownVote: PropTypes.func,
-  typeVote: PropTypes.string.isRequired
+  typeVote: PropTypes.string
 }
 
 VoteButton.defaultProps = {

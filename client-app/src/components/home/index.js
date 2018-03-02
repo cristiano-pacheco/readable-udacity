@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 
 import If from '../../utils/components/if'
 import PostGrid from '../post/grid'
-import { removeSlash } from '../../utils/helpers/string'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import {
   fetchPosts,
@@ -34,9 +33,9 @@ class Home extends Component {
   }
 
   selectCategoryAfterPageRefresh () {
-    const category = removeSlash(this.props.location.pathname)
+    const category = this.getCategoryFromRoute()
     this.props.fetchPostsByCategory(category)
-    this.setState({ category, blockCategory: true })
+    this.setState({ category })
   }
 
   persistCategoryAfterChangeRoute () {
@@ -45,12 +44,17 @@ class Home extends Component {
         return this.props.fetchPosts()
       }
 
-      const { category } = this.props.match.params
+      const category = this.getCategoryFromRoute()
       if (category) {
         this.setState({ category })
         this.props.fetchPostsByCategory(category)
       }
     })
+  }
+
+  getCategoryFromRoute () {
+    const { category } = this.props.match.params
+    return category
   }
 
   handleCategoryChange (category) {

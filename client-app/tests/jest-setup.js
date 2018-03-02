@@ -8,6 +8,7 @@ global.shallow = shallow
 global.render = render
 global.mount = mount
 global.React = React
+global.localStorage = () => {}
 
 console.log = message => {
   throw new Error(message)

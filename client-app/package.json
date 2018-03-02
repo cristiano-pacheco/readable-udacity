@@ -71,7 +71,12 @@
     "globals": [
       "fetch",
       "localStorage",
-      "it"
+      "it",
+      "describe",
+      "expect",
+      "shallow",
+      "mount",
+      "jest"
     ]
   },
   "jest": {
