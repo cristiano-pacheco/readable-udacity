@@ -99,7 +99,7 @@ const PostGrid = ({
             <Table.Cell textAlign='center' width={1}>{item.commentCount}</Table.Cell>
             <Table.Cell textAlign='center' width={1}>{item.voteScore}</Table.Cell>
             <Table.Cell textAlign='center' width={2}>
-              <VoteButton postId={item.id} />
+              <VoteButton id={item.id} />
             </Table.Cell>
           </Table.Row>
         ))}

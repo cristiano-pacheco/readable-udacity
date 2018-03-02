@@ -30,6 +30,8 @@ class Comments extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.deleteComment = this.deleteComment.bind(this)
+    this.handleUpVote = this.handleUpVote.bind(this)
+    this.handleDownVote = this.handleDownVote.bind(this)
   }
 
   componentDidMount () {
@@ -148,22 +150,51 @@ class Comments extends Component {
     })
   }
 
+  handleUpVote (id) {
+    CommentsAPI
+      .upVote(id)
+      .then(() => {
+        const comments = this.state
+        .comments
+        .map(item => {
+          if (item.id === id) {
+            const voteScore = item.voteScore + 1
+            return {
+              ...item,
+              voteScore
+            }
+          }
+          return item
+        })
+        this.setState({ comments })
+      })
+  }
+
+  handleDownVote (id) {
+    CommentsAPI
+      .downVote(id)
+      .then(() => {
+        const comments = this.state
+        .comments
+        .map(item => {
+          if (item.id === id) {
+            const voteScore = item.voteScore - 1
+            return {
+              ...item,
+              voteScore
+            }
+          }
+          return item
+        })
+        this.setState({ comments })
+      })
+  }
+
   render () {
     const { comments, isOpenForm, errorMessages, successMessage,
       body, author, isLoading } = this.state
     return (
       <div>
-        <CommentForm
-          body={body}
-          author={author}
-          open={isOpenForm}
-          isLoading={isLoading}
-          close={this.closeForm}
-          errorMessages={errorMessages}
-          successMessage={successMessage}
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-        />
         <CommentsHeader
           comments={comments}
           isLoading={isLoading}
@@ -177,9 +208,22 @@ class Comments extends Component {
               comment={item}
               openEditForm={this.openEditForm}
               deleteComment={this.deleteComment}
+              handleUpVote={this.handleUpVote}
+              handleDownVote={this.handleDownVote}
             />
           ))}
         </Card.Group>
+        <CommentForm
+          body={body}
+          author={author}
+          open={isOpenForm}
+          isLoading={isLoading}
+          close={this.closeForm}
+          errorMessages={errorMessages}
+          successMessage={successMessage}
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+        />
       </div>
     )
   }

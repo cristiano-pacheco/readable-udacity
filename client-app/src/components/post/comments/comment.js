@@ -6,7 +6,13 @@ import VoteButtom from '../../post/vote-button'
 import { timeStampToNow } from '../../../utils/helpers/date'
 import { newLineToBr, captalize } from '../../../utils/helpers/string'
 
-const Comment = ({ comment, openEditForm, deleteComment }) => (
+const Comment = ({
+  comment,
+  openEditForm,
+  deleteComment,
+  handleUpVote,
+  handleDownVote
+}) => (
   <Card>
     <Card.Content>
       <Card.Header>
@@ -32,7 +38,12 @@ const Comment = ({ comment, openEditForm, deleteComment }) => (
         </Label>
       </Button>
       <div style={{ float: 'right' }}>
-        <VoteButtom />
+        <VoteButtom
+          id={comment.id}
+          typeVote='comment'
+          handleUpVote={handleUpVote}
+          handleDownVote={handleDownVote}
+        />
       </div>
     </Card.Content>
     <Button.Group attached='bottom'>
@@ -51,7 +62,9 @@ const Comment = ({ comment, openEditForm, deleteComment }) => (
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
   openEditForm: PropTypes.func.isRequired,
-  deleteComment: PropTypes.func.isRequired
+  deleteComment: PropTypes.func.isRequired,
+  handleUpVote: PropTypes.func.isRequired,
+  handleDownVote: PropTypes.func.isRequired
 }
 
 export default Comment

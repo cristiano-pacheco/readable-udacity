@@ -9,11 +9,12 @@ import {
 } from '../../redux-flow/reducers/posts/action-creators'
 
 const VoteButton = ({
-  postId,
+  id,
   upVoteAPI,
   downVoteAPI,
   handleUpVote,
-  handleDownVote
+  handleDownVote,
+  typeVote
 }) => (
   <div>
     <Icon
@@ -23,8 +24,10 @@ const VoteButton = ({
       className='btn-pointer'
       name='thumbs outline up'
       onClick={() => {
-        upVoteAPI(postId)
-        handleUpVote()
+        if (typeVote === 'post') {
+          upVoteAPI(id)
+        }
+        handleUpVote(id)
       }}
     />
     <Icon
@@ -34,24 +37,28 @@ const VoteButton = ({
       className='btn-pointer'
       name='thumbs outline down'
       onClick={() => {
-        downVoteAPI(postId)
-        handleDownVote()
+        if (typeVote === 'post') {
+          downVoteAPI(id)
+        }
+        handleDownVote(id)
       }}
     />
   </div>
 )
 
 VoteButton.propTypes = {
-  postId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   upVoteAPI: PropTypes.func.isRequired,
   downVoteAPI: PropTypes.func.isRequired,
   handleUpVote: PropTypes.func,
-  handleDownVote: PropTypes.func
+  handleDownVote: PropTypes.func,
+  typeVote: PropTypes.string.isRequired
 }
 
 VoteButton.defaultProps = {
   handleUpVote: () => {},
-  handleDownVote: () => {}
+  handleDownVote: () => {},
+  typeVote: 'post'
 }
 
 const mapDispatchToProps = { upVoteAPI, downVoteAPI }

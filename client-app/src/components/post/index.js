@@ -117,7 +117,7 @@ class Post extends Component {
           </Button>
           <div className='btn-vote-score'>
             <VoteButton
-              postId={this.state.id}
+              id={this.state.id}
               handleUpVote={this.handleUpVote}
               handleDownVote={this.handleDownVote}
             />
