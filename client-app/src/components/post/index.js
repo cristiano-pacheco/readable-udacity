@@ -24,7 +24,7 @@ import {
   fetchPosts
 } from '../../redux-flow/reducers/posts/action-creators'
 
-class Post extends Component {
+export class Post extends Component {
   constructor () {
     super()
     this.state = {
@@ -109,6 +109,7 @@ class Post extends Component {
             </Button>
           </Link>
           <Button
+            data-js='btn-delete'
             icon
             color='red'
             onClick={() => this.props.deletePost(this.state.id)}
