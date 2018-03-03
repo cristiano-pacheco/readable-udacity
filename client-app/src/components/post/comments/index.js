@@ -10,7 +10,7 @@ import CommentsHeader from './comments-header'
 import * as CommentValidator from './validator'
 import * as CommentsAPI from '../../../api/comments'
 
-class Comments extends Component {
+export class Comments extends Component {
   constructor () {
     super()
     this.state = {
