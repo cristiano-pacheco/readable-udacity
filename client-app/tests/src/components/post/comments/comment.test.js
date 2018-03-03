@@ -3,7 +3,7 @@ import Comment from '../../../../../src/components/post/comments/comment'
 const func = () => {}
 
 const comment = {
-  id:'id_test',
+  id: 'id_test',
   body: '',
   author: '',
   timestamp: '',

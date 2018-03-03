@@ -53,7 +53,7 @@ describe('<CommentHeader />', () => {
 
   it('shows the word Comments when the array of comments has one element.', () => {
     const wrapper = mount(<CommentsHeader
-      comments={[{},{}]}
+      comments={[{}, {}]}
       openForm={func}
       isLoading={false}
     />)

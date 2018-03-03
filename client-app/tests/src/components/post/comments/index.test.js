@@ -27,7 +27,7 @@ describe('<Comments />', () => {
 
   it('should map comments and render a comment for each one of them', () => {
     fetchMock.get('*', [])
-    const comments = [{},{}]
+    const comments = [{}, {}]
     const wrapper = shallow(<Comments match={match} />)
     wrapper.setState({ comments })
     expect(wrapper.find('Comment').length).toBe(2)

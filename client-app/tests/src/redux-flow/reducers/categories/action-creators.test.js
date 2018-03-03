@@ -25,7 +25,7 @@ describe('categories actions', () => {
   it('fetchCategories should dispatch a GET_CATEGORIES action', () => {
     const store = mockStore([])
 
-    const categories = [{ name: 'react', path: 'react'}]
+    const categories = [{ name: 'react', path: 'react' }]
 
     const expectedActions = [{
       type: actions.GET_CATEGORIES,

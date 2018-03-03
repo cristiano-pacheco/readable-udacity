@@ -97,5 +97,3 @@ describe('<Post />', () => {
     expect(wrapper.find('Statistic').prop('color')).toBe('blue')
   })
 })
-
-

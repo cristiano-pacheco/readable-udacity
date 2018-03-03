@@ -208,14 +208,14 @@ describe('post actions', () => {
   it('openModalDeletePost should dispatch OPEN_MODAL_DELETE_POST action', () => {
     expect(actionCreators.openModalDeletePost())
       .toEqual({
-        type: actions.OPEN_MODAL_DELETE_POST,
+        type: actions.OPEN_MODAL_DELETE_POST
       })
   })
 
   it('closeModalDeletePost should dispatch CLOSE_MODAL_DELETE_POST action', () => {
     expect(actionCreators.closeModalDeletePost())
       .toEqual({
-        type: actions.CLOSE_MODAL_DELETE_POST,
+        type: actions.CLOSE_MODAL_DELETE_POST
       })
   })
 })

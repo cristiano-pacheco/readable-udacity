@@ -79,7 +79,8 @@
       "expect",
       "shallow",
       "mount",
-      "jest"
+      "jest",
+      "afterEach"
     ]
   },
   "jest": {
