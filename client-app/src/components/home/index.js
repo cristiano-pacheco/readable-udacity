@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import If from '../../utils/components/if'
 import PostGrid from '../post/grid'
+import { removeSlash } from '../../utils/helpers/string'
 import { fetchCategories } from '../../redux-flow/reducers/categories/action-creators'
 import {
   fetchPosts,
@@ -44,12 +45,19 @@ export class Home extends Component {
         return this.props.fetchPosts()
       }
 
-      const category = this.getCategoryFromRoute()
+      if (!this.isHomeRoute(location.pathname)) return
+
+      const category = removeSlash(location.pathname)
+
       if (category) {
         this.setState({ category })
         this.props.fetchPostsByCategory(category)
       }
     })
+  }
+
+  isHomeRoute (route) {
+    return (route.split('/').length - 1) <= 1
   }
 
   getCategoryFromRoute () {

@@ -82,7 +82,7 @@ export class Post extends Component {
               <If test={voteScore === 1}>
                 Vote
               </If>
-              <If test={voteScore === 0 || voteScore > 1}>
+              <If test={voteScore <= 0 || voteScore > 1}>
                 Votes
               </If>
             </Statistic.Label>
