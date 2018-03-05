@@ -7,18 +7,18 @@ describe('IsEmpty()', () => {
   })
 
   it('should isEmpty() to be true', () => {
-    expect(isEmpty()).to.equal(true)
+    expect(isEmpty()).to.be.true
   })
 
   it('should isEmpty("") to be true', () => {
-    expect(isEmpty('')).to.equal(true)
+    expect(isEmpty('')).to.be.true
   })
 
   it('should isEmpty("   ") to be true', () => {
-    expect(isEmpty('   ')).to.equal(true)
+    expect(isEmpty('   ')).to.be.true
   })
 
   it('should isEmpty("string") to be false', () => {
-    expect(isEmpty('string')).to.equal(false)
+    expect(isEmpty('string')).to.be.false
   })
 })

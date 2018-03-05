@@ -45,6 +45,9 @@ export class Post extends Component {
     this.setState({ isLoading: true })
     getPost(this.props.match.params.post_id)
       .then(post => {
+        if (Object.keys(post).length === 0) {
+          return this.props.history.push('/404')
+        }
         this.setState({ ...post, isLoading: false })
       })
   }

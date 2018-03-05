@@ -7,18 +7,18 @@ describe('IsMinLength()', () => {
   })
 
   it('should returns true when isMinLength("ab", 3)', () => {
-    expect(isMinLength('ab', 3)).to.be.equal(true)
+    expect(isMinLength('ab', 3)).to.be.true
   })
 
   it('should returns false when isMinLength("ab", 2)', () => {
-    expect(isMinLength('ab', 2)).to.be.equal(false)
+    expect(isMinLength('ab', 2)).to.be.false
   })
 
   it('should returns true when isMinLength()', () => {
-    expect(isMinLength()).to.be.equal(true)
+    expect(isMinLength()).to.be.true
   })
 
   it('should returns true when isMinLength(1, 1)', () => {
-    expect(isMinLength(1, 1)).to.be.equal(true)
+    expect(isMinLength(1, 1)).to.be.true
   })
 })
