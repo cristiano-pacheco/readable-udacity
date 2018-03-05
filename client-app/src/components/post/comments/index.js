@@ -142,7 +142,8 @@ export class Comments extends Component {
     })
   }
 
-  closeForm () {
+  closeForm (e) {
+    e.preventDefault()
     this.setState({
       isOpenForm: false,
       successMessage: '',
