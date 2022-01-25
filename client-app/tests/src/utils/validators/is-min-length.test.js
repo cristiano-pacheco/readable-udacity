@@ -14,7 +14,7 @@ describe('IsMinLength()', () => {
     expect(isMinLength('ab', 2)).to.be.false
   })
 
-  it('should returns true when isMinLength()', () => {
+  it('checks if isMinLength() returns true', () => {
     expect(isMinLength()).to.be.true
   })
 
